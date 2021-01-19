@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Asteroid.Fabrics
 {
+    [RequireComponent(typeof(CircleCollider2D))]
     class AsteroidFactory : IEnemyFactory
     {
         public IEnemy Create(GameObject obj, Health health)
@@ -24,6 +25,7 @@ namespace Asteroid.Fabrics
         {
             var enemy = GameObject.Instantiate(Resources.Load<AsteroidEnemy>("Prefabs/Asteroid"));
             enemy.InjectHealth(health);
+            health.Death += enemy.Dispose;
             return enemy;
         }
     }

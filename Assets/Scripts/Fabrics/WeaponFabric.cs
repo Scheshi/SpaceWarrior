@@ -19,7 +19,9 @@ namespace Asteroid.Fabrics
             var bullet = new BulletController(
             _bulletData.Bullet,
             barrel.transform,
-            _bulletData.Force);
+            _bulletData.Force,
+            _bulletData.Damage
+            );
 
             return bullet;
         }
