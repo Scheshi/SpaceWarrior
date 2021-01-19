@@ -1,4 +1,5 @@
 ﻿using Asteroid.Fabrics;
+using Asteroid.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +16,12 @@ namespace Asteroids
 
         public void Start()
         {
-            new PlayerFabric(_playerData).Create(new WeaponFabric(_bulletData));
+            IPlayer player = new PlayerFabric(_playerData)
+                .Create(
+                new WeaponFabric(_bulletData),
+                new Health(_playerData.Hp)
+                );
+
         }
 
         private void Update()

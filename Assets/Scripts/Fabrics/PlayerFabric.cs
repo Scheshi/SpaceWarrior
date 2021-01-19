@@ -15,7 +15,7 @@ namespace Asteroids
         }
 
 
-        public IPlayer Create(WeaponFabric weaponFabric)
+        public IPlayer Create(WeaponFabric weaponFabric, Health health)
         {
             var player = GameObject.Instantiate(_playerData.Prefab).transform;
             if(_playerData.Particles.TryGetComponent(out ParticleSystem _))
@@ -33,14 +33,14 @@ namespace Asteroids
 
             var ship = new ShipFabric(moveTransform, rotation).Create();
 
-            
+            inputManager.AccelerateDown += ship.RemoveAcceleration;
+            inputManager.AccelerateUp += ship.AddAcceleration;
+            inputManager.Move += ship.Move;
+            inputManager.Rotation += ship.Rotation;
 
-
-
-            var playerController = new Player(_playerData.Hp);
             var view = player.GetComponent<PlayerView>();
-            playerController.Death += view.Dispose;
-            view.Collision += playerController.Damage;
+            health.Death += view.Dispose;
+            view.Losses += health.Damage;
 
 
             var weapon = weaponFabric.Create(player.GetComponentInChildren<BarrelMarker>());
@@ -48,7 +48,7 @@ namespace Asteroids
             inputManager.Fire += weapon.Fire;
 
 
-            return playerController;
+            return view;
         }
     }
 }

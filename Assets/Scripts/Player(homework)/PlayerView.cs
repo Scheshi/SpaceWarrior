@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Asteroid.Interfaces;
+using System;
 using UnityEngine;
 
 
-public class PlayerView : MonoBehaviour, IDisposable
+public class PlayerView : MonoBehaviour, IDisposable, IPlayer
 {
-    public event Action Collision;
+    public event Action<float> Losses;
 
     public void Dispose()
     {
         Destroy(gameObject);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void Damage(float point)
     {
-        Collision?.Invoke();
+        Losses?.Invoke(point);
     }
 
 }

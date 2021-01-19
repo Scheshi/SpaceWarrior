@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using Asteroid.Interfaces;
+using UnityEngine;
+
 
 namespace Asteroids
 {
-    internal sealed class Ship : IMove, IRotation
+    internal sealed class Ship
     {
         private readonly IMove _moveImplementation;
         private readonly IRotation _rotationImplementation;
