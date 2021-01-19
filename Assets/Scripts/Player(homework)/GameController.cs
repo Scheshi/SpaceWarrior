@@ -34,12 +34,11 @@ namespace Asteroids
             inputManager.Move += ship.Move;
             inputManager.Rotation += ship.Rotation;
 
-
-
-
             var weapon = new WeaponFabric(_bulletData).Create(player.GetComponentInChildren<BarrelMarker>());
 
             inputManager.Fire += weapon.Fire;
+
+            var enemy = new AsteroidFactory().Create(new Health(20.0f));
         }
 
         private void Update()
