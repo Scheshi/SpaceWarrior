@@ -1,0 +1,27 @@
+﻿using Asteroid.Interfaces;
+using Asteroids;
+using System;
+using UnityEngine;
+
+namespace Asteroid.Fabrics
+{
+    internal sealed class WeaponFabric : IWeaponFabric
+    {
+        private BulletData _bulletData;
+
+        public WeaponFabric(BulletData bulletData)
+        {
+            _bulletData = bulletData;
+        }
+
+        internal BulletController Create(BarrelMarker barrel)
+        {
+            var bullet = new BulletController(
+            _bulletData.Bullet,
+            barrel.transform,
+            _bulletData.Force);
+
+            return bullet;
+        }
+    }
+}

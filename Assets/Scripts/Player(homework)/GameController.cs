@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Asteroid.Fabrics;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Asteroids
 
         public void Start()
         {
-            new PlayerInitializer(_playerData, _bulletData).Execute();
+            new PlayerFabric(_playerData).Create(new WeaponFabric(_bulletData));
         }
 
         private void Update()
@@ -31,7 +32,6 @@ namespace Asteroids
         }
 
 
-        //Сделал только добавление, ибо удаление нигде, по сути, и не нужно
         public static void AddUpdatable(IUpdatable updatable)
         {
             _updatables.Add(updatable);

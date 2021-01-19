@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Asteroid.Interfaces;
+using System;
 
 
 namespace Asteroids
 {
-    internal class PlayerController
+    internal class Player : IPlayer
     {
         public event Action Death;
         private float _hp;
 
-        public PlayerController(float health)
+        public Player(float health)
         {
             _hp = health;
         }

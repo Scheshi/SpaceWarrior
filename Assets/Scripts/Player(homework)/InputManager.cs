@@ -25,6 +25,7 @@ namespace Asteroids
         {
             _camera = camera;
             _inputerObject = playerTransform;
+            GameController.AddUpdatable(this);
         }
 
         public void Update()
