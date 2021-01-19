@@ -14,7 +14,7 @@ namespace Asteroid.Fabrics
             _bulletData = bulletData;
         }
 
-        internal BulletController Create(BarrelMarker barrel)
+        public IWeapon Create(BarrelMarker barrel)
         {
             var bullet = new BulletController(
             _bulletData.Bullet,

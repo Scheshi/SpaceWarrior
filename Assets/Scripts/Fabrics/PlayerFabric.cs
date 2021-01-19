@@ -1,54 +1,30 @@
-﻿using Asteroid.Fabrics;
-using Asteroid.Interfaces;
+﻿using Asteroid.Interfaces;
+using Asteroids;
 using UnityEngine;
 
-
-namespace Asteroids
+namespace Asteroid.Fabrics
 {
-    internal sealed class PlayerFabric
+    class PlayerFabric : IPlayerFabric
     {
-        private PlayerData _playerData;
-
-        public PlayerFabric(PlayerData playerData)
+        public IPlayer Create(GameObject gameObject, Health health)
         {
-            _playerData = playerData;
+            var player = GameObject.Instantiate(gameObject).AddComponent<Player>();
+            player.InjectHealth(health);
+            health.Death += player.Dispose;
+
+            return player;
         }
 
-
-        public IPlayer Create(WeaponFabric weaponFabric, Health health)
+        public IPlayer Create(GameObject gameObject)
         {
-            var player = GameObject.Instantiate(_playerData.Prefab).transform;
-            if(_playerData.Particles.TryGetComponent(out ParticleSystem _))
-            {
-                GameObject.Instantiate(_playerData.Particles, player);
-            }
-            var camera = Camera.main;
-            camera.transform.parent = player;
-            camera.transform.position = new Vector3(0.0f, 0.0f, _playerData.CameraOffset);
+            return GameObject.Instantiate(gameObject).AddComponent<Player>();
+        }
 
-            var inputManager = new InputManager(camera, player);
-
-            var moveTransform = new AccelerationMove(player, _playerData.Speed, _playerData.Acceleration);
-            var rotation = new RotationShip(player);
-
-            var ship = new ShipFabric(moveTransform, rotation).Create();
-
-            inputManager.AccelerateDown += ship.RemoveAcceleration;
-            inputManager.AccelerateUp += ship.AddAcceleration;
-            inputManager.Move += ship.Move;
-            inputManager.Rotation += ship.Rotation;
-
-            var view = player.GetComponent<PlayerView>();
-            health.Death += view.Dispose;
-            view.Losses += health.Damage;
-
-
-            var weapon = weaponFabric.Create(player.GetComponentInChildren<BarrelMarker>());
-
-            inputManager.Fire += weapon.Fire;
-
-
-            return view;
+        public IPlayer Create(GameObject gameObject, GameObject particles, Health health)
+        {
+            var player = (Player)Create(gameObject, health);
+            GameObject.Instantiate(particles, player.transform);
+            return player;
         }
     }
 }

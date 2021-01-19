@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Asteroid.Interfaces;
 using UnityEngine;
+
 
 namespace Asteroids
 {
-    internal class BulletController
+    internal class BulletController : IWeapon
     {
         private Rigidbody2D _bullet;
         private Transform _startPositionTransform;
@@ -16,7 +17,7 @@ namespace Asteroids
             _force = force;
         }
 
-        internal void Fire()
+        public void Fire()
         {
             var bullet = GameObject.Instantiate(_bullet, _startPositionTransform.position, Quaternion.identity);
             bullet.AddForce(_startPositionTransform.up * _force, ForceMode2D.Impulse);
