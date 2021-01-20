@@ -1,5 +1,6 @@
 ﻿using Asteroid.Fabrics;
 using Asteroid.Interfaces;
+using Asteroid.Views;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,8 @@ namespace Asteroids
     {
         [SerializeField] private PlayerData _playerData;
         [SerializeField] private BulletData _bulletData;
-        private static List<IUpdatable> _updatables = new List<IUpdatable>();
+        private readonly static List<IFrameUpdatable> _updatables = new List<IFrameUpdatable>();
+        private readonly static List<IFixedUpdatable> _fixedUpdatables = new List<IFixedUpdatable>();
 
         public void Start()
         {
@@ -38,9 +40,19 @@ namespace Asteroids
 
             inputManager.Fire += weapon.Fire;
 
+            //Создание противника через фабрику
             var enemy = new AsteroidFactory().Create(new Health(20.0f));
 
-            var comet = CometFactory.CreateEnemy(new Health(10.0f));
+
+            //Создание противника статик методом(из фабрики)
+            Comet comet = (Comet)CometFactory.CreateEnemy(new Health(10.0f));
+            comet.transform.position = new Vector2(
+                player.transform.position.x + Random.Range(-5.0f, 5.0f),
+                player.transform.position.y + Random.Range(-5.0f, 5.0f));
+
+            comet.transform.up = playerTransform.position - comet.transform.position;
+            new CometMove(new MoveTransform(comet.transform, 1.0f)).Move
+                (comet.transform.up.x, comet.transform.up.y, Time.deltaTime);
         }
 
         private void Update()
@@ -51,15 +63,25 @@ namespace Asteroids
             }
         }
 
-        internal static void RemoveUpdatable(IUpdatable updatable)
+        private void FixedUpdate()
         {
-            _updatables.Remove(updatable);
+            for(int i = 0; i < _fixedUpdatables.Count; i++)
+            {
+                _fixedUpdatables[i].FixedUpdate();
+            }
+        }
+
+        internal static void AddUpdatable(IUpdatable updatable)
+        {
+            if (updatable is IFrameUpdatable) _updatables.Add(updatable as IFrameUpdatable);
+            if (updatable is IFixedUpdatable) _fixedUpdatables.Add(updatable as IFixedUpdatable);
         }
 
 
-        public static void AddUpdatable(IUpdatable updatable)
+        public static void RemoveUpdatable(IUpdatable updatable)
         {
-            _updatables.Add(updatable);
+            if (updatable is IFrameUpdatable) _updatables.Remove(updatable as IFrameUpdatable);
+            if (updatable is IFixedUpdatable) _fixedUpdatables.Remove(updatable as IFixedUpdatable);
         }
     }
 }

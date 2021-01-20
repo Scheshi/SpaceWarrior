@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace Asteroids
 {
-    internal class BulletController : IWeapon
+    internal class WeaponController : IWeapon
     {
         private Rigidbody2D _bullet;
         private Transform _startPositionTransform;
         private float _force;
         private float _damage;
 
-        public BulletController(Rigidbody2D bullet, Transform startPositionTransform, float force, float damage)
+        public WeaponController(Rigidbody2D bullet, Transform startPositionTransform, float force, float damage)
         {
             _bullet = bullet;
             _startPositionTransform = startPositionTransform;

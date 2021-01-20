@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Asteroids
 {
-    internal sealed class Ship
+    internal sealed class Ship : IMove, IRotation
     {
         private readonly IMove _moveImplementation;
         private readonly IRotation _rotationImplementation;

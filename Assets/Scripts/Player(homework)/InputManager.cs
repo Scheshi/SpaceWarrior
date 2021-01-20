@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Asteroid.Interfaces;
+using System;
 using UnityEngine;
 
 
 namespace Asteroids
 {
-    public class InputManager : IUpdatable
+    public class InputManager : IFrameUpdatable
     {
         public event Action<float, float, float> Move;
         public event Action<Vector3> Rotation;
