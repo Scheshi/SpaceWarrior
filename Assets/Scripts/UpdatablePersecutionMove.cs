@@ -1,27 +1,30 @@
 ﻿using Asteroid.Interfaces;
-using Asteroids;
+using System;
 using UnityEngine;
 
-namespace Asteroid
+
+namespace Asteroids
 {
     class UpdatablePersecutionMove : MoveTransform, IFrameUpdatable
     {
-        Transform _playerTransform;
-        Transform _transform;
+        public event Action Stoping; 
+        private Transform _persecutionTransform;
+        private Transform _transform;
 
-        public UpdatablePersecutionMove(Transform transform, Transform playerTransform, float speed) : base(transform, speed)
+        public UpdatablePersecutionMove(Transform transform, Transform persecutionTransform, float speed) : base(transform, speed)
         {
             _transform = transform;
-            _playerTransform = playerTransform;
+            _persecutionTransform = persecutionTransform;
             GameController.AddUpdatable(this);
         }
 
         public void Update()
         {
-            if((_playerTransform.position - _transform.position).sqrMagnitude >= 2.0f)
+            if ((_persecutionTransform.position - _transform.position).sqrMagnitude >= 2.0f)
             {
-                Move(_playerTransform.position.x - _transform.position.x, _playerTransform.position.y - _transform.position.y, Time.deltaTime);
+                Move(_persecutionTransform.position.x - _transform.position.x, _persecutionTransform.position.y - _transform.position.y, Time.deltaTime);
             }
+            else Stoping?.Invoke();
         }
     }
 }

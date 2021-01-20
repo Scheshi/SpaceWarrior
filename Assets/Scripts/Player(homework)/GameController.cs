@@ -61,9 +61,10 @@ namespace Asteroids
                 (comet.transform.up.x, comet.transform.up.y, Time.deltaTime);
 
             var enemy = EnemyObjectPool.GetEnemy<EnemyShip>();
-            var persecutionMove = new UpdatablePersecutionMove(enemy.transform, playerTransform, _playerData.Speed);
+            var persecutionMove = new UpdatablePersecutionMove(enemy.transform, playerTransform, _playerData.Speed / 2);
             var persecutRotation = new UpdatablePersecutionRotation(enemy.transform, playerTransform);
             var enemyShip = new Ship(persecutionMove, persecutRotation);
+            persecutionMove.Stoping += new WeaponController(_bulletData.Bullet, enemy.GetComponentInChildren<BarrelMarker>().transform, _bulletData.Force / 2, _bulletData.Damage / 2).Fire;
         }
 
         private void Update()
