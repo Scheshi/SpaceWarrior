@@ -54,6 +54,7 @@ GameObject:
   - component: {fileID: 3322231551844130526}
   - component: {fileID: 5526091594322161880}
   - component: {fileID: 2796825545063593918}
+  - component: {fileID: -1175113378308210187}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -506,3 +507,24 @@ PolygonCollider2D:
       - {x: -0.11750001, y: 0.2525}
       - {x: -0.1115, y: 0.2525}
       - {x: -0.116500005, y: 0.2345}
+--- !u!50 &-1175113378308210187
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6530344021219819777}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 100
+  m_AngularDrag: 20
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

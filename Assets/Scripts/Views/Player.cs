@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 
-internal sealed class Player : MonoBehaviour, IDisposable, IPlayer
+internal sealed class Player : MonoBehaviour, IDisposable, IPlayer, IDamagable
 {
     private Health _health;
 

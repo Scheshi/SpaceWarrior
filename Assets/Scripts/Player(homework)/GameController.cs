@@ -39,6 +39,8 @@ namespace Asteroids
             inputManager.Fire += weapon.Fire;
 
             var enemy = new AsteroidFactory().Create(new Health(20.0f));
+
+            var comet = CometFactory.CreateEnemy(new Health(10.0f));
         }
 
         private void Update()

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Asteroid.Views
 {
-    internal sealed class AsteroidEnemy : MonoBehaviour, IEnemy, IDisposable
+    internal sealed class Comet : MonoBehaviour, IEnemy, IDisposable
     {
         private Health _health;
 
@@ -18,7 +18,7 @@ namespace Asteroid.Views
 
         public void InjectHealth(Health health)
         {
-            if(_health == null)
+            if (_health == null)
             {
                 _health = health;
             }
@@ -32,8 +32,7 @@ namespace Asteroid.Views
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            Debug.Log(collision.gameObject.name);
-            if(collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
+            if (collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
             {
                 //TO-DO fixed hardcode
                 damagable.Damage(200.0f);
