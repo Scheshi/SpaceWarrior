@@ -16,5 +16,5 @@ MonoBehaviour:
   Particles: {fileID: 183190, guid: e9a6501da28be2b4986e8ba47c2e017c, type: 3}
   Speed: 5
   Acceleration: 2
-  Hp: 10
+  Hp: 100
   CameraOffset: -10

@@ -24,6 +24,9 @@ namespace Asteroid.ObjectPool
                 case "Comet":
                     enemy = CometFactory.CreateEnemy(new Health(20.0f));
                     break;
+                case "EnemyShip":
+                    enemy = new EnemyShipFactory().Create(new Health(30.0f));
+                    break;
                 default:
                     throw new NullReferenceException("Такого типа нет в пуле объектов врагов");
             }

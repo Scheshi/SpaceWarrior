@@ -1,4 +1,5 @@
-﻿using Asteroid.Fabrics;
+﻿using Asteroid;
+using Asteroid.Fabrics;
 using Asteroid.Interfaces;
 using Asteroid.ObjectPool;
 using Asteroid.Views;
@@ -58,6 +59,11 @@ namespace Asteroids
             comet.transform.up = playerTransform.position - comet.transform.position;
             new CometMove(new MoveTransform(comet.transform, 1.0f)).Move
                 (comet.transform.up.x, comet.transform.up.y, Time.deltaTime);
+
+            var enemy = EnemyObjectPool.GetEnemy<EnemyShip>();
+            var persecutionMove = new UpdatablePersecutionMove(enemy.transform, playerTransform, _playerData.Speed);
+            var persecutRotation = new UpdatablePersecutionRotation(enemy.transform, playerTransform);
+            var enemyShip = new Ship(persecutionMove, persecutRotation);
         }
 
         private void Update()

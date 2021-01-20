@@ -37,7 +37,6 @@ namespace Asteroid.Views
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            Debug.Log(collision.gameObject.name);
             if(collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
             {
                 //TO-DO fixed hardcode

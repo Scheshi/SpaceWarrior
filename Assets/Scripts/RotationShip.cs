@@ -2,7 +2,7 @@
 
 namespace Asteroids
 {
-    internal sealed class RotationShip : IRotation
+    internal class RotationShip : IRotation
     {
         private readonly Transform _transform;
         
