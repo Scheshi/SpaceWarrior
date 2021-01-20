@@ -24,7 +24,7 @@ namespace Asteroid.Fabrics
         {
             var enemy = GameObject.Instantiate(Resources.Load<Comet>("Prefabs/Comet"));
             enemy.InjectHealth(health);
-            health.Death += enemy.Dispose;
+            health.Death += enemy.Death;
             return enemy;
         }
 

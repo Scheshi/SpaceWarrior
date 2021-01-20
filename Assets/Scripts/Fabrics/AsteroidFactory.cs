@@ -25,7 +25,7 @@ namespace Asteroid.Fabrics
         {
             var enemy = GameObject.Instantiate(Resources.Load<AsteroidEnemy>("Prefabs/Asteroid"));
             enemy.InjectHealth(health);
-            health.Death += enemy.Dispose;
+            health.Death += enemy.Death;
             return enemy;
         }
     }

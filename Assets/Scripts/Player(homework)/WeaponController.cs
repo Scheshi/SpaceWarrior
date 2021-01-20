@@ -1,4 +1,5 @@
 ﻿using Asteroid.Interfaces;
+using Asteroid.ObjectPool;
 using UnityEngine;
 
 
@@ -21,8 +22,7 @@ namespace Asteroids
 
         public void Fire()
         {
-            var bullet = GameObject.Instantiate(_bullet, _startPositionTransform.position, Quaternion.identity);
-            bullet.gameObject.AddComponent<Bullet>().Damage = _damage;
+            var bullet = BulletObjectPool.GetBullet(_bullet.gameObject, _startPositionTransform.position, _damage);
             bullet.AddForce(_startPositionTransform.up * _force, ForceMode2D.Impulse);
         }
     }

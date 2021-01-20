@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Asteroid.Fabrics
 {
-    class PlayerFabric : IPlayerFabric
+    class PlayerFactory : IPlayerFabric
     {
         public IPlayer Create(GameObject gameObject, Health health)
         {

@@ -18,7 +18,7 @@ namespace Asteroids
         public void Start()
         {
 
-            var player = (Player)new PlayerFabric().Create(_playerData.Prefab, _playerData.Particles, new Health(_playerData.Hp));
+            var player = (Player)new PlayerFactory().Create(_playerData.Prefab, _playerData.Particles, new Health(_playerData.Hp));
 
             var playerTransform = player.transform;
 
@@ -37,7 +37,7 @@ namespace Asteroids
             inputManager.Move += ship.Move;
             inputManager.Rotation += ship.Rotation;
 
-            var weapon = new WeaponFabric(_bulletData).Create(player.GetComponentInChildren<BarrelMarker>());
+            var weapon = new WeaponFactory(_bulletData).Create(player.GetComponentInChildren<BarrelMarker>());
 
             inputManager.Fire += weapon.Fire;
 

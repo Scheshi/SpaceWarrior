@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Asteroid.Fabrics
 {
-    internal sealed class WeaponFabric : IWeaponFabric
+    internal sealed class WeaponFactory : IWeaponFabric
     {
         private BulletData _bulletData;
 
-        public WeaponFabric(BulletData bulletData)
+        public WeaponFactory(BulletData bulletData)
         {
             _bulletData = bulletData;
         }
