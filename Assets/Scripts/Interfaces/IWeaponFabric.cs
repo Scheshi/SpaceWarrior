@@ -1,7 +1,4 @@
-﻿using Asteroids;
-
-
-namespace Asteroids.Interfaces
+﻿namespace Asteroids.Interfaces
 {
     interface IWeaponFabric
     {
