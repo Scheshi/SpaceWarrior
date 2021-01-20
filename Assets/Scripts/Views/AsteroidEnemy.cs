@@ -1,4 +1,5 @@
 ﻿using Asteroid.Interfaces;
+using Asteroid.ObjectPool;
 using Asteroids;
 using System;
 using UnityEngine;
@@ -24,9 +25,13 @@ namespace Asteroid.Views
             }
         }
 
+        public void Death()
+        {
+            EnemyObjectPool.ReturnToPool(this);
+        }
+
         public void Dispose()
         {
-            //TO-DO ObjectPool
             Destroy(gameObject);
         }
 
@@ -36,7 +41,8 @@ namespace Asteroid.Views
             if(collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
             {
                 //TO-DO fixed hardcode
-                damagable.Damage(200.0f);
+                damagable.Damage(10.0f);
+                Death();
             }
         }
     }

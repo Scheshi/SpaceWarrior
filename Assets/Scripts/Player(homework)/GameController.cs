@@ -1,5 +1,6 @@
 ﻿using Asteroid.Fabrics;
 using Asteroid.Interfaces;
+using Asteroid.ObjectPool;
 using Asteroid.Views;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,11 +42,15 @@ namespace Asteroids
             inputManager.Fire += weapon.Fire;
 
             //Создание противника через фабрику
-            var enemy = new AsteroidFactory().Create(new Health(20.0f));
+            //var enemy = new AsteroidFactory().Create(new Health(20.0f));
 
+            var asteroid = EnemyObjectPool.GetEnemy<AsteroidEnemy>();
 
             //Создание противника статик методом(из фабрики)
-            Comet comet = (Comet)CometFactory.CreateEnemy(new Health(10.0f));
+            //Comet comet = (Comet)CometFactory.CreateEnemy(new Health(10.0f));
+            
+            var comet = EnemyObjectPool.GetEnemy<Comet>();
+            
             comet.transform.position = new Vector2(
                 player.transform.position.x + Random.Range(-5.0f, 5.0f),
                 player.transform.position.y + Random.Range(-5.0f, 5.0f));
