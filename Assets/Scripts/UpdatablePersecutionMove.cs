@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Asteroids
 {
-    class UpdatablePersecutionMove : MoveTransform, IFrameUpdatable
+    class UpdatablePersecutionMove : MoveTransform, IFrameUpdatable, IDisposable
     {
         public event Action Stoping; 
         private Transform _persecutionTransform;
@@ -25,6 +25,11 @@ namespace Asteroids
                 Move(_persecutionTransform.position.x - _transform.position.x, _persecutionTransform.position.y - _transform.position.y, Time.deltaTime);
             }
             else Stoping?.Invoke();
+        }
+
+        public void Dispose()
+        {
+            GameController.RemoveUpdatable(this);
         }
     }
 }

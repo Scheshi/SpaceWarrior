@@ -64,6 +64,7 @@ namespace Asteroids
             var persecutionMove = new UpdatablePersecutionMove(enemy.transform, playerTransform, _playerData.Speed / 2);
             var persecutRotation = new UpdatablePersecutionRotation(enemy.transform, playerTransform);
             var enemyShip = new Ship(persecutionMove, persecutRotation);
+            enemy.InjectMovement(persecutionMove);
             persecutionMove.Stoping += new WeaponController(_bulletData.Bullet, enemy.GetComponentInChildren<BarrelMarker>().transform, _bulletData.Force / 2, _bulletData.Damage / 2).Fire;
         }
 

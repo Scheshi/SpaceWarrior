@@ -1,14 +1,16 @@
 ﻿using Asteroid.Interfaces;
+using System;
 using UnityEngine;
+
 
 namespace Asteroids
 {
-    internal sealed class UpdatablePersecutionRotation : RotationShip, IFrameUpdatable
+    internal sealed class UpdatablePersecutionRotation : IRotation, IFrameUpdatable, IDisposable
     {
         private Transform _transform; 
         private Transform _playerTransform;
 
-        public UpdatablePersecutionRotation(Transform transform, Transform playerTransform) : base(transform)
+        public UpdatablePersecutionRotation(Transform transform, Transform playerTransform)
         {
             _playerTransform = playerTransform;
             _transform = transform;
@@ -17,8 +19,17 @@ namespace Asteroids
 
         public void Update()
         {
-            Rotation(_transform.position - _playerTransform.position);
+            Rotation(_playerTransform.position - _transform.position);
         }
 
+        public void Rotation(Vector3 direction)
+        {
+            _transform.up = direction;
+        }
+
+        public void Dispose()
+        {
+            GameController.RemoveUpdatable(this);
+        }
     }
 }
