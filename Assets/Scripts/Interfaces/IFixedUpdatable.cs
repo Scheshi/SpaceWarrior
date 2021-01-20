@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Asteroid.Interfaces
+namespace Asteroids.Interfaces
 {
     interface IFixedUpdatable : IUpdatable
     {

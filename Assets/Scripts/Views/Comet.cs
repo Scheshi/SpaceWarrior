@@ -1,11 +1,11 @@
-﻿using Asteroid.Interfaces;
-using Asteroid.ObjectPool;
+﻿using Asteroids.Interfaces;
+using Asteroids.ObjectPool;
 using Asteroids;
 using System;
 using UnityEngine;
 
 
-namespace Asteroid.Views
+namespace Asteroids.Views
 {
     internal sealed class Comet : MonoBehaviour, IEnemy, IDisposable
     {

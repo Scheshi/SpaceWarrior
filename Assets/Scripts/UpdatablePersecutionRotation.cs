@@ -1,4 +1,4 @@
-﻿using Asteroid.Interfaces;
+﻿using Asteroids.Interfaces;
 using System;
 using UnityEngine;
 

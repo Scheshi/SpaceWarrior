@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-namespace Asteroid.Interfaces
+namespace Asteroids.Interfaces
 {
     interface IPlayerFabric
     {

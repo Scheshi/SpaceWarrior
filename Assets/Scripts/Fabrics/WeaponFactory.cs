@@ -1,9 +1,9 @@
-﻿using Asteroid.Interfaces;
+﻿using Asteroids.Interfaces;
 using Asteroids;
 using System;
 using UnityEngine;
 
-namespace Asteroid.Fabrics
+namespace Asteroids.Fabrics
 {
     internal sealed class WeaponFactory : IWeaponFabric
     {

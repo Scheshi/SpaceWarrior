@@ -1,4 +1,4 @@
-﻿namespace Asteroid.Interfaces
+﻿namespace Asteroids.Interfaces
 {
     interface IPlayer : IDamagable
     {

@@ -1,10 +1,10 @@
-﻿using Asteroid.Interfaces;
-using Asteroid.Views;
+﻿using Asteroids.Interfaces;
+using Asteroids.Views;
 using Asteroids;
 using UnityEngine;
 
 
-namespace Asteroid.Fabrics
+namespace Asteroids.Fabrics
 {
     [RequireComponent(typeof(CircleCollider2D))]
     class AsteroidFactory : IEnemyFactory

@@ -1,10 +1,9 @@
-﻿using Asteroid.Interfaces;
-using Asteroid.Views;
-using Asteroids;
+﻿using Asteroids.Interfaces;
+using Asteroids.Views;
 using UnityEngine;
 
 
-namespace Asteroid.Fabrics
+namespace Asteroids.Fabrics
 {
     class CometFactory : IEnemyFactory
     {

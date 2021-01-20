@@ -1,13 +1,13 @@
-﻿using Asteroid.Interfaces;
+﻿using Asteroids.Interfaces;
 using System;
 using System.Collections.Generic;
-using Asteroid.Fabrics;
+using Asteroids.Fabrics;
 using Asteroids;
 using System.Linq;
 using UnityEngine;
 
 
-namespace Asteroid.ObjectPool
+namespace Asteroids.ObjectPool
 {
     internal static class EnemyObjectPool
     {

@@ -1,5 +1,5 @@
-﻿using Asteroid.Interfaces;
-using Asteroid.ObjectPool;
+﻿using Asteroids.Interfaces;
+using Asteroids.ObjectPool;
 using Asteroids;
 using UnityEngine;
 

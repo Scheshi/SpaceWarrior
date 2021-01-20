@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 
-namespace Asteroid.ObjectPool
+namespace Asteroids.ObjectPool
 {
     internal sealed class BulletObjectPool
     {

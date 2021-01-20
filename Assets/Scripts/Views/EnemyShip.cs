@@ -1,11 +1,10 @@
-﻿using Asteroid.Interfaces;
-using Asteroid.ObjectPool;
-using Asteroids;
+﻿using Asteroids.Interfaces;
+using Asteroids.ObjectPool;
 using System;
 using UnityEngine;
 
 
-namespace Asteroid.Views
+namespace Asteroids.Views
 {
     class EnemyShip : MonoBehaviour, IDamagable, IDisposable, IEnemy
     {

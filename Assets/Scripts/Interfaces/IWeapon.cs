@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Asteroid.Interfaces
+namespace Asteroids.Interfaces
 {
     interface IWeapon
     {

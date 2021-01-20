@@ -1,8 +1,8 @@
-﻿using Asteroid.Interfaces;
+﻿using Asteroids.Interfaces;
 using Asteroids;
 using UnityEngine;
 
-namespace Asteroid.Fabrics
+namespace Asteroids.Fabrics
 {
     class PlayerFactory : IPlayerFabric
     {
