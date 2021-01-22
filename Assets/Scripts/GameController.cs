@@ -1,6 +1,7 @@
 ﻿using Asteroids.Fabrics;
 using Asteroids.Interfaces;
 using Asteroids.ObjectPool;
+using Asteroids.Services;
 using Asteroids.Views;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,15 +45,17 @@ namespace Asteroids
                 ref inputManager.Fire
                 );
 
-            //Создание противника через фабрику
-            //var enemy = new AsteroidFactory().Create(new Health(20.0f));
+            var enemyPool = new EnemyObjectPool();
 
-            var asteroid = EnemyObjectPool.GetEnemy<AsteroidEnemy>();
+            //Добавление пулла в локатор и попытка его достать оттуда
 
-            //Создание противника статик методом(из фабрики)
-            //Comet comet = (Comet)CometFactory.CreateEnemy(new Health(10.0f));
+            ServiceLocatorObjectPool.Send(enemyPool);
+
+            var asteroid = ServiceLocatorObjectPool.Get<EnemyObjectPool>().Get<AsteroidEnemy>();
+
+            //var asteroid = enemyPool.Get<AsteroidEnemy>();
             
-            var comet = EnemyObjectPool.GetEnemy<Comet>();
+            var comet = enemyPool.Get<Comet>();
             
             comet.transform.position = new Vector2(
                 player.transform.position.x + Random.Range(-5.0f, 5.0f),
@@ -62,7 +65,7 @@ namespace Asteroids
             new CometMove(new MoveTransform(comet.transform, 1.0f), this)
                 .Move(comet.transform.up.x, comet.transform.up.y, Time.deltaTime);
 
-            var enemy = EnemyObjectPool.GetEnemy<EnemyShip>();
+            var enemy = enemyPool.Get<EnemyShip>();
             var persecutionMove = new UpdatablePersecutionMove(enemy.transform, playerTransform, _playerData.Speed / 2, this);
             var persectionRotation = new UpdatablePersecutionRotation(enemy.transform, playerTransform, this);
             var enemyShip = new Ship(persecutionMove, persectionRotation);

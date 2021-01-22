@@ -1,5 +1,6 @@
 ﻿using Asteroids.Interfaces;
 using Asteroids.ObjectPool;
+using Asteroids.Services;
 using System;
 using UnityEngine;
 
@@ -25,7 +26,7 @@ namespace Asteroids.Views
 
         public void Death()
         {
-            EnemyObjectPool.ReturnToPool(this);
+            ServiceLocatorObjectPool.Get<EnemyObjectPool>().ReturnToPool(gameObject);
             if (!Equals(_move, null))
                 _move.Dispose();
         }

@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace Asteroids.ObjectPool
 {
-    internal static class EnemyObjectPool
+    internal class EnemyObjectPool : IPool
     {
-        private static readonly Dictionary<string, HashSet<IEnemy>> _enemyCollection = new Dictionary<string, HashSet<IEnemy>>();
+        private readonly Dictionary<string, HashSet<IEnemy>> _enemyCollection = new Dictionary<string, HashSet<IEnemy>>();
 
         private static IEnemy CreateEnemy(string typeString)
         {
@@ -34,14 +34,14 @@ namespace Asteroids.ObjectPool
         }
 
 
-        private static HashSet<IEnemy> GetListOfEnemy(string typeString)
+        private HashSet<IEnemy> GetListOfEnemy(string typeString)
         {
             return _enemyCollection.ContainsKey(typeString) ? _enemyCollection[typeString] : _enemyCollection[typeString] = new HashSet<IEnemy>();
         }
 
-        public static T GetEnemy<T>() where T: IEnemy
+        public IEnemy Get<IEnemy>()
         {
-            var type = typeof(T).Name;
+            var type = typeof(IEnemy).Name;
 
             var enemy = GetListOfEnemy(type).FirstOrDefault(x => !(x as MonoBehaviour).gameObject.activeSelf);
 
@@ -53,13 +53,12 @@ namespace Asteroids.ObjectPool
             }
 
             (enemy as MonoBehaviour).gameObject.SetActive(true);
-            return (T)enemy;
+            return (IEnemy)enemy;
         }
 
-        public static void ReturnToPool(IEnemy enemy)
+        public void ReturnToPool(GameObject obj)
         {
-            var go = (enemy as MonoBehaviour).gameObject;
-            go.SetActive(false);
+            obj.SetActive(false);
         }
     }
 }
