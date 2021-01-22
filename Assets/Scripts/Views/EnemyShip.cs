@@ -19,13 +19,15 @@ namespace Asteroids.Views
         public void Dispose()
         {
             Destroy(gameObject);
-            _move.Dispose();
+            if(!Equals(_move, null))
+                _move.Dispose();
         }
 
         public void Death()
         {
             EnemyObjectPool.ReturnToPool(this);
-            _move.Dispose();
+            if (!Equals(_move, null))
+                _move.Dispose();
         }
 
         public void InjectHealth(Health health)

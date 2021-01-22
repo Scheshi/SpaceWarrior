@@ -38,7 +38,11 @@ namespace Asteroids
             inputManager.Move += ship.Move;
             inputManager.Rotation += ship.Rotation;
 
-            var weapon = new WeaponFactory(_bulletData).Create(player.GetComponentInChildren<BarrelMarker>(), inputManager.Fire);
+            var weapon = new WeaponFactory(_bulletData)
+                .Create(
+                player.GetComponentInChildren<BarrelMarker>(),
+                ref inputManager.Fire
+                );
 
             //Создание противника через фабрику
             //var enemy = new AsteroidFactory().Create(new Health(20.0f));
@@ -62,7 +66,7 @@ namespace Asteroids
             var persecutionMove = new UpdatablePersecutionMove(enemy.transform, playerTransform, _playerData.Speed / 2, this);
             var persectionRotation = new UpdatablePersecutionRotation(enemy.transform, playerTransform, this);
             var enemyShip = new Ship(persecutionMove, persectionRotation);
-            enemy.InjectMovement(persecutionMove);
+            //enemy.InjectMovement(persecutionMove);
 
             var enemyWeapon = new WeaponFactory(
                 new BulletData()
@@ -73,7 +77,7 @@ namespace Asteroids
                 })
                 .Create(
                 enemy.GetComponentInChildren<BarrelMarker>(),
-                persecutionMove.Stoping
+                ref persecutionMove.Stoping
                 );
         }
 
