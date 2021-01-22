@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Asteroids.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 
 namespace Asteroids.ObjectPool
 {
-    internal sealed class BulletObjectPool
+    internal sealed class BulletObjectPool : IPool
     {
-        private static Dictionary<float, HashSet<Bullet>> _bulletCollection = new Dictionary<float, HashSet<Bullet>>();
+        private Dictionary<float, HashSet<Bullet>> _bulletCollection = new Dictionary<float, HashSet<Bullet>>();
 
-        private static Bullet Create(GameObject gameObject, float damage)
+        private Bullet Create(float damage)
         {
-            var bullet = Bullet.CreateBullet(gameObject, damage);
+            var bullet = Bullet.CreateBullet(damage);
             Rigidbody2D rigidbody;
             if(!bullet.TryGetComponent(out rigidbody))
             {
@@ -24,26 +25,26 @@ namespace Asteroids.ObjectPool
 
         }
 
-        public static Rigidbody2D GetBullet(GameObject gameObject, Vector3 position, float damage)
+        public Rigidbody2D Get<Rigidbody2D>(Vector3 position, float damage)
         {
             var bullet = GetListBullets(damage).FirstOrDefault(x => !x.gameObject.activeSelf);
             if(bullet == null)
             {
-                bullet = Create(gameObject, damage);
+                bullet = Create(damage);
             }
             bullet.transform.position = position;
             bullet.gameObject.SetActive(true);
             return bullet.GetComponent<Rigidbody2D>();
         }
 
-        private static HashSet<Bullet> GetListBullets(float damage)
+        private HashSet<Bullet> GetListBullets(float damage)
         {
             return _bulletCollection.ContainsKey(damage) ? _bulletCollection[damage] : _bulletCollection[damage] = new HashSet<Bullet>(); 
         }
 
-        public static void ReturnToPool(Bullet bullet)
+        public void ReturnToPool(GameObject obj)
         {
-            bullet.gameObject.SetActive(false);
+            obj.SetActive(false);
         }
     }
 }

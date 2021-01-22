@@ -12,6 +12,7 @@ namespace Asteroids.Views
     {
         private Health _health;
 
+        public Health Health => _health;
 
         public void Damage(float point)
         {

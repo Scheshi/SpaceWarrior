@@ -50,12 +50,19 @@ namespace Asteroids
             //Добавление пулла в локатор и попытка его достать оттуда
 
             ServiceLocatorObjectPool.Send(enemyPool);
+            ServiceLocatorObjectPool.Send(new BulletObjectPool());
 
-            var asteroid = ServiceLocatorObjectPool.Get<EnemyObjectPool>().Get<AsteroidEnemy>();
+            var asteroid = ServiceLocatorObjectPool.Get<EnemyObjectPool>().Get<AsteroidEnemy>(
+                new Vector3(Random.Range(-3.0f, 3.0f), Random.Range(-3.0f, 3.0f), 0.0f),
+                10.0f
+                );
 
             //var asteroid = enemyPool.Get<AsteroidEnemy>();
-            
-            var comet = enemyPool.Get<Comet>();
+
+            var comet = enemyPool.Get<Comet>(
+                new Vector3(Random.Range(-3.0f, 3.0f), Random.Range(-3.0f, 3.0f), 0.0f),
+                15.0f
+                );
             
             comet.transform.position = new Vector2(
                 player.transform.position.x + Random.Range(-5.0f, 5.0f),
@@ -65,7 +72,10 @@ namespace Asteroids
             new CometMove(new MoveTransform(comet.transform, 1.0f), this)
                 .Move(comet.transform.up.x, comet.transform.up.y, Time.deltaTime);
 
-            var enemy = enemyPool.Get<EnemyShip>();
+            var enemy = enemyPool.Get<EnemyShip>(
+                new Vector3(Random.Range(-3.0f, 3.0f), Random.Range(-3.0f, 3.0f), 0.0f),
+                20.0f
+                );
             var persecutionMove = new UpdatablePersecutionMove(enemy.transform, playerTransform, _playerData.Speed / 2, this);
             var persectionRotation = new UpdatablePersecutionRotation(enemy.transform, playerTransform, this);
             var enemyShip = new Ship(persecutionMove, persectionRotation);

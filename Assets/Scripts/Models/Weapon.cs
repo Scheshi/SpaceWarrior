@@ -1,5 +1,6 @@
 ﻿using Asteroids.Interfaces;
 using Asteroids.ObjectPool;
+using Asteroids.Services;
 using System;
 using UnityEngine;
 
@@ -30,7 +31,7 @@ namespace Asteroids
             if (_lastFireTime + _cooldown < Time.time)
             {
                 _lastFireTime = Time.time;
-                var bullet = BulletObjectPool.GetBullet(_bullet.gameObject, _startPositionTransform.position, _damage);
+                var bullet = ServiceLocatorObjectPool.Get<BulletObjectPool>().Get<Rigidbody2D>(_startPositionTransform.position, _damage);
                 bullet.AddForce(_startPositionTransform.up * _force, ForceMode2D.Impulse);
             }
         }

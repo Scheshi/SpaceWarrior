@@ -2,6 +2,10 @@
 {
     interface IDamagable
     {
+        Health Health { get; }
+
         void Damage(float point);
+
+        void Death();
     }
 }

@@ -2,9 +2,10 @@
 using Asteroids.ObjectPool;
 using Asteroids;
 using UnityEngine;
+using Asteroids.Services;
+using System;
 
-
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IDisposable
 {
     private float _damage;
 
@@ -26,13 +27,18 @@ public class Bullet : MonoBehaviour
 
     private void Destroy()
     {
-        BulletObjectPool.ReturnToPool(this);
+        ServiceLocatorObjectPool.Get<BulletObjectPool>().ReturnToPool(gameObject);
     }
 
-    public static Bullet CreateBullet(GameObject gameObject, float damage)
+    public static Bullet CreateBullet(float damage)
     {
-        var bullet = GameObject.Instantiate(gameObject).AddComponent<Bullet>();
+        var bullet = GameObject.Instantiate(Resources.Load<Bullet>("Prefabs/Bullet"));
         bullet._damage = damage;
         return bullet;
+    }
+
+    public void Dispose()
+    {
+        Destroy(gameObject);
     }
 }

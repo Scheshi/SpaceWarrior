@@ -12,6 +12,8 @@ namespace Asteroids.Views
         private Health _health;
         private IDisposable _move;
 
+        public Health Health => _health;
+
         public void Damage(float point)
         {
             _health.Damage(point);
