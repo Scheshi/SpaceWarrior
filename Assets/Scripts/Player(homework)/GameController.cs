@@ -1,5 +1,4 @@
-﻿using Asteroids;
-using Asteroids.Fabrics;
+﻿using Asteroids.Fabrics;
 using Asteroids.Interfaces;
 using Asteroids.ObjectPool;
 using Asteroids.Views;
@@ -23,7 +22,7 @@ namespace Asteroids
 
             var playerTransform = player.transform;
 
-            var inputManager = new InputManager(Camera.main, playerTransform);
+            var inputManager = new InputManager(Camera.main, playerTransform, this);
 
             Camera.main.transform.parent = playerTransform;
             Camera.main.transform.position = new Vector3(0.0f, 0.0f, _playerData.CameraOffset);
@@ -33,14 +32,13 @@ namespace Asteroids
 
             var ship = new ShipFabric(moveTransform, rotation).Create();
 
+
             inputManager.AccelerateDown += ship.RemoveAcceleration;
             inputManager.AccelerateUp += ship.AddAcceleration;
             inputManager.Move += ship.Move;
             inputManager.Rotation += ship.Rotation;
 
-            var weapon = new WeaponFactory(_bulletData).Create(player.GetComponentInChildren<BarrelMarker>());
-
-            inputManager.Fire += weapon.Fire;
+            var weapon = new WeaponFactory(_bulletData).Create(player.GetComponentInChildren<BarrelMarker>(), inputManager.Fire);
 
             //Создание противника через фабрику
             //var enemy = new AsteroidFactory().Create(new Health(20.0f));
@@ -57,15 +55,26 @@ namespace Asteroids
                 player.transform.position.y + Random.Range(-5.0f, 5.0f));
 
             comet.transform.up = playerTransform.position - comet.transform.position;
-            new CometMove(new MoveTransform(comet.transform, 1.0f)).Move
-                (comet.transform.up.x, comet.transform.up.y, Time.deltaTime);
+            new CometMove(new MoveTransform(comet.transform, 1.0f), this)
+                .Move(comet.transform.up.x, comet.transform.up.y, Time.deltaTime);
 
             var enemy = EnemyObjectPool.GetEnemy<EnemyShip>();
-            var persecutionMove = new UpdatablePersecutionMove(enemy.transform, playerTransform, _playerData.Speed / 2);
-            var persecutRotation = new UpdatablePersecutionRotation(enemy.transform, playerTransform);
-            var enemyShip = new Ship(persecutionMove, persecutRotation);
+            var persecutionMove = new UpdatablePersecutionMove(enemy.transform, playerTransform, _playerData.Speed / 2, this);
+            var persectionRotation = new UpdatablePersecutionRotation(enemy.transform, playerTransform, this);
+            var enemyShip = new Ship(persecutionMove, persectionRotation);
             enemy.InjectMovement(persecutionMove);
-            persecutionMove.Stoping += new WeaponController(_bulletData.Bullet, enemy.GetComponentInChildren<BarrelMarker>().transform, _bulletData.Force / 2, _bulletData.Damage / 2).Fire;
+
+            var enemyWeapon = new WeaponFactory(
+                new BulletData()
+                {
+                    Bullet = _bulletData.Bullet,
+                    Damage = _bulletData.Damage / 2,
+                    Force = _bulletData.Force / 2
+                })
+                .Create(
+                enemy.GetComponentInChildren<BarrelMarker>(),
+                persecutionMove.Stoping
+                );
         }
 
         private void Update()
@@ -84,14 +93,14 @@ namespace Asteroids
             }
         }
 
-        internal static void AddUpdatable(IUpdatable updatable)
+        public void AddUpdatable(IUpdatable updatable)
         {
             if (updatable is IFrameUpdatable) _updatables.Add(updatable as IFrameUpdatable);
             if (updatable is IFixedUpdatable) _fixedUpdatables.Add(updatable as IFixedUpdatable);
         }
 
 
-        public static void RemoveUpdatable(IUpdatable updatable)
+        public void RemoveUpdatable(IUpdatable updatable)
         {
             if (updatable is IFrameUpdatable) _updatables.Remove(updatable as IFrameUpdatable);
             if (updatable is IFixedUpdatable) _fixedUpdatables.Remove(updatable as IFixedUpdatable);

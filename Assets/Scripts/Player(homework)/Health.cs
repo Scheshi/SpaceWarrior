@@ -3,6 +3,7 @@
 
 namespace Asteroids
 {
+    [Serializable]
     internal class Health
     {
         public event Action Death;

@@ -5,16 +5,17 @@ using UnityEngine;
 
 namespace Asteroids
 {
-    public class InputManager : IFrameUpdatable
+    internal class InputManager : IFrameUpdatable, IDisposable
     {
         public event Action<float, float, float> Move;
         public event Action<Vector3> Rotation;
         public event Action AccelerateUp;
         public event Action AccelerateDown;
-        public event Action Fire;
+        public Action Fire;
 
         private Camera _camera;
         private Transform _inputerObject;
+        private GameController _game;
 
         private string _fireAxis = "Fire1";
         private string _horizontalAxis = "Horizontal";
@@ -22,11 +23,12 @@ namespace Asteroids
 
         private string _accelerateAxis = "Fire2";
         
-        public InputManager(Camera camera, Transform playerTransform)
+        public InputManager(Camera camera, Transform playerTransform, GameController gameController)
         {
             _camera = camera;
             _inputerObject = playerTransform;
-            GameController.AddUpdatable(this);
+            _game = gameController;
+            _game.AddUpdatable(this);
         }
 
         public void Update()
@@ -63,5 +65,9 @@ namespace Asteroids
             }
         }
 
+        public void Dispose()
+        {
+            _game.RemoveUpdatable(this);
+        }
     }
 }

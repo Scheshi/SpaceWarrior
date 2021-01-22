@@ -7,15 +7,17 @@ namespace Asteroids
 {
     class UpdatablePersecutionMove : MoveTransform, IFrameUpdatable, IDisposable
     {
-        public event Action Stoping; 
+        public Action Stoping;
         private Transform _persecutionTransform;
         private Transform _transform;
+        private GameController _game;
 
-        public UpdatablePersecutionMove(Transform transform, Transform persecutionTransform, float speed) : base(transform, speed)
+        public UpdatablePersecutionMove(Transform transform, Transform persecutionTransform, float speed, GameController gameController) : base(transform, speed)
         {
             _transform = transform;
             _persecutionTransform = persecutionTransform;
-            GameController.AddUpdatable(this);
+            _game = gameController;
+            _game.AddUpdatable(this);
         }
 
         public void Update()
@@ -29,7 +31,7 @@ namespace Asteroids
 
         public void Dispose()
         {
-            GameController.RemoveUpdatable(this);
+            _game.RemoveUpdatable(this);
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Asteroids
             var speed = deltaTime * Speed;
             _move.Set(horizontal * speed, vertical * speed, 0.0f);
             _transform.localPosition += _move;
+
         }
     }
 }

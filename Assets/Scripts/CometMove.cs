@@ -1,20 +1,22 @@
 ﻿using Asteroids.Interfaces;
 using Asteroids;
 using UnityEngine;
+using System;
 
-
-internal sealed class CometMove : IMove, IFrameUpdatable
+internal sealed class CometMove : IMove, IFrameUpdatable, IDisposable
 {
+    private GameController _game;
     private IMove _move;
 
     private float _horizontal;
     private float _vertical;
     private float _deltaTime;
 
-    public CometMove(IMove move)
+    public CometMove(IMove move, GameController gameController)
     {
         _move = move;
-        GameController.AddUpdatable(this);
+        _game = gameController;
+        _game.AddUpdatable(this);
     }
 
     public float Speed => _move.Speed;
@@ -29,5 +31,10 @@ internal sealed class CometMove : IMove, IFrameUpdatable
         _horizontal = horizontal;
         _vertical = vertical;
         _deltaTime = deltaTime;
+    }
+
+    public void Dispose()
+    {
+        _game.RemoveUpdatable(this);
     }
 }

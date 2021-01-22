@@ -22,8 +22,8 @@ namespace Asteroids.Fabrics
 
         public IPlayer Create(GameObject gameObject, GameObject particles, Health health)
         {
-            var player = (Player)Create(gameObject, health);
-            GameObject.Instantiate(particles, player.transform);
+            var player = Create(gameObject, health);
+            GameObject.Instantiate(particles, ((MonoBehaviour)player).transform);
             return player;
         }
     }

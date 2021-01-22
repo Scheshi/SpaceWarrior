@@ -9,12 +9,14 @@ namespace Asteroids
     {
         private Transform _transform; 
         private Transform _playerTransform;
+        private GameController _game;
 
-        public UpdatablePersecutionRotation(Transform transform, Transform playerTransform)
+        public UpdatablePersecutionRotation(Transform transform, Transform playerTransform, GameController gameController)
         {
             _playerTransform = playerTransform;
             _transform = transform;
-            GameController.AddUpdatable(this);
+            _game = gameController;
+            _game.AddUpdatable(this);
         }
 
         public void Update()
@@ -29,7 +31,7 @@ namespace Asteroids
 
         public void Dispose()
         {
-            GameController.RemoveUpdatable(this);
+            _game.RemoveUpdatable(this);
         }
     }
 }
