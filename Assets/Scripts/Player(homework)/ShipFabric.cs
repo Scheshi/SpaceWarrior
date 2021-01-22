@@ -1,4 +1,6 @@
-﻿namespace Asteroids
+﻿using Asteroids.Interfaces;
+
+namespace Asteroids.Fabrics
 {
     internal class ShipFabric
     {
@@ -11,10 +13,10 @@
             _rotation = rotation;
         }
 
-        public Ship Create()
+        public T Create<T>() where T: Ship
         {
             var ship = new Ship(_move, _rotation);
-            return ship;
+            return (T)ship;
         }
     }
 }

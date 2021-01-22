@@ -18,7 +18,7 @@ namespace Asteroids
         public void Start()
         {
 
-            var player = (Player)new PlayerFactory().Create(_playerData.Prefab, _playerData.Particles, new Health(_playerData.Hp));
+            var player = (Player)new PlayerFactory().Create(_playerData.PlayerPrefab, _playerData.ParticlesAroundPlayer, new Health(_playerData.Hp));
 
             var playerTransform = player.transform;
 
@@ -30,7 +30,7 @@ namespace Asteroids
             var moveTransform = new AccelerationMove(playerTransform, _playerData.Speed, _playerData.Acceleration);
             var rotation = new RotationShip(playerTransform);
 
-            var ship = new ShipFabric(moveTransform, rotation).Create();
+            var ship = new ShipFabric(moveTransform, rotation).Create<Ship>();
 
 
             inputManager.AccelerateDown += ship.RemoveAcceleration;
