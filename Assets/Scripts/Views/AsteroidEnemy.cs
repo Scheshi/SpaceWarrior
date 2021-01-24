@@ -2,6 +2,7 @@
 using Asteroids.ObjectPool;
 using Asteroids;
 using System;
+using Asteroids.Models;
 using UnityEngine;
 using Asteroids.Services;
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Asteroids
+namespace Asteroids.Models
 {
     internal sealed class AccelerationMove : MoveTransform
     {

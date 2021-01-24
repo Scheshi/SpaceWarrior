@@ -1,4 +1,7 @@
-﻿namespace Asteroids.Interfaces
+﻿using Asteroids.Models;
+
+
+namespace Asteroids.Interfaces
 {
     interface IDamagable
     {

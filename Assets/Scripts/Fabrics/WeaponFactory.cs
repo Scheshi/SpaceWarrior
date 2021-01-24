@@ -6,7 +6,7 @@ namespace Asteroids.Fabrics
 {
     internal sealed class WeaponFactory : IWeaponFabric
     {
-        private BulletData _bulletData;
+        private readonly BulletData _bulletData;
 
         public WeaponFactory(BulletData bulletData)
         {

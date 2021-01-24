@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Asteroids.Fabrics;
 using Asteroids;
 using System.Linq;
+using Asteroids.Models;
+using Asteroids.Services;
 using UnityEngine;
 
 
@@ -42,9 +44,9 @@ namespace Asteroids.ObjectPool
         public IEnemy Get<IEnemy>(Vector3 position, float points)
         {
             var type = typeof(IEnemy).Name;
-
-            var enemy = GetListOfEnemy(type).FirstOrDefault(x => !(x as MonoBehaviour).gameObject.activeSelf);
             
+            var enemy = GetListOfEnemy(type).FirstOrDefault(x => (x is MonoBehaviour) && !(x as MonoBehaviour).gameObject.activeSelf);
+
 
             if(enemy == null)
             {
@@ -53,10 +55,18 @@ namespace Asteroids.ObjectPool
                 _enemyCollection[type].Add(enemy);
             }
             enemy.InjectHealth(new Health(points));
-            var go = (enemy as MonoBehaviour).gameObject;
-            go.transform.position = position;
-            
-            go.SetActive(true);
+            GameObject go = null;
+            if (enemy.TryGetAbstract<MonoBehaviour>(out var enemyMono))
+            {
+                go = enemyMono.gameObject;
+                go.transform.position = position;
+                go.SetActive(true);
+            }
+            else
+            {
+                Debug.LogError($"Тип {typeof(IEnemy).Name} не является MonoBehaviour");
+                
+            }
             return (IEnemy)enemy;
         }
 

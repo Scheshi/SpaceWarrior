@@ -1,6 +1,7 @@
 ﻿using Asteroids.Interfaces;
 using Asteroids.ObjectPool;
 using System;
+using Asteroids.Models;
 using UnityEngine;
 using Asteroids.Services;
 
