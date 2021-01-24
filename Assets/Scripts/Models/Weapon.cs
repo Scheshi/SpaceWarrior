@@ -9,7 +9,6 @@ namespace Asteroids
 {
     internal class Weapon : IWeapon, IDisposable
     {
-        private Rigidbody2D _bullet;
         private Transform _startPositionTransform;
         private BulletObjectPool _bulletPool;
         private Action _fireAction;
@@ -19,10 +18,9 @@ namespace Asteroids
         private float _lastFireTime = 0.0f;
         
 
-        public Weapon(Rigidbody2D bullet, Transform startPositionTransform, ref Action fireAction, float force, float damage)
+        public Weapon(Transform startPositionTransform, ref Action fireAction, float force, float damage)
         {
             _fireAction = fireAction;
-            _bullet = bullet;
             _startPositionTransform = startPositionTransform;
             _force = force;
             _damage = damage;

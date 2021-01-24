@@ -16,8 +16,7 @@ namespace Asteroids.Fabrics
         public IWeapon Create(BarrelMarker barrel, ref Action fireAction)
         {
             var bullet = new Weapon(
-            _bulletData.Bullet,
-            barrel.transform,
+                barrel.transform,
             ref fireAction,
             _bulletData.Force,
             _bulletData.Damage
