@@ -8,7 +8,7 @@ namespace Asteroids.ObjectPool
 {
     internal sealed class BulletObjectPool : IPool
     {
-        private Dictionary<float, HashSet<Bullet>> _bulletCollection = new Dictionary<float, HashSet<Bullet>>();
+        private readonly Dictionary<float, HashSet<Bullet>> _bulletCollection = new Dictionary<float, HashSet<Bullet>>();
 
         private Bullet Create(float damage)
         {

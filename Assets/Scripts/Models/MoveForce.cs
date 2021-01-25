@@ -17,7 +17,7 @@ namespace Asteroids.Models
         }
 
 
-
+        //Реализация паттерна "Мост"
         public void Move(float horizontal, float vertical, float deltaTime)
         {
             _rigidbody.MovePosition(new Vector3(horizontal, vertical, 0.0f) * Speed);

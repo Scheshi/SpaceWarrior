@@ -14,44 +14,24 @@ namespace Asteroids.ObjectPool
     internal class EnemyObjectPool : IPool
     {
         private readonly Dictionary<string, HashSet<IEnemy>> _enemyCollection = new Dictionary<string, HashSet<IEnemy>>();
-
-        private static IEnemy CreateEnemy(string typeString, float health)
-        {
-            IEnemy enemy = null;
-            switch(typeString)
-            {
-                case "AsteroidEnemy":
-                    enemy = new AsteroidFactory().Create(new Health(health));
-                    break;
-                case "Comet":
-                    enemy = CometFactory.CreateEnemy(new Health(health));
-                    break;
-                case "EnemyShip":
-                    enemy = new EnemyShipFactory().Create(new Health(health));
-                    break;
-                default:
-                    throw new NullReferenceException("Такого типа нет в пуле объектов врагов");
-            }
-            return enemy;
-        }
-
+        private readonly EnemyFactoryComposite _enemyFactory = new EnemyFactoryComposite();
 
         private HashSet<IEnemy> GetListOfEnemy(string typeString)
         {
             return _enemyCollection.ContainsKey(typeString) ? _enemyCollection[typeString] : _enemyCollection[typeString] = new HashSet<IEnemy>();
         }
 
-        public IEnemy Get<IEnemy>(Vector3 position, float points)
+        public TEnemy Get<TEnemy>(Vector3 position, float points)
         {
-            var type = typeof(IEnemy).Name;
+            var type = typeof(TEnemy).Name;
             
-            var enemy = GetListOfEnemy(type).FirstOrDefault(x => (x is MonoBehaviour) && !(x as MonoBehaviour).gameObject.activeSelf);
+            var enemy = GetListOfEnemy(type).FirstOrDefault(x => (x.TryGetAbstract<MonoBehaviour>(out var mono)) && !mono.gameObject.activeSelf);
 
 
             if(enemy == null)
             {
                 Debug.Log("Пустой враг. Создаю нового");
-                enemy = CreateEnemy(type, points);
+                enemy = _enemyFactory.Create(new Health(points), typeof(TEnemy));
                 _enemyCollection[type].Add(enemy);
             }
             enemy.InjectHealth(new Health(points));
@@ -64,10 +44,10 @@ namespace Asteroids.ObjectPool
             }
             else
             {
-                Debug.LogError($"Тип {typeof(IEnemy).Name} не является MonoBehaviour");
+                Debug.LogError($"Тип {typeof(TEnemy).Name} не является MonoBehaviour");
                 
             }
-            return (IEnemy)enemy;
+            return (TEnemy)enemy;
         }
 
         public void ReturnToPool(GameObject obj)
