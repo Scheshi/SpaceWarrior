@@ -1,13 +1,12 @@
 ﻿using Asteroids.Interfaces;
-using Asteroids;
 using System;
-using UnityEngine;
+
 
 namespace Asteroids.Fabrics
 {
     internal sealed class WeaponFactory : IWeaponFabric
     {
-        private BulletData _bulletData;
+        private readonly BulletData _bulletData;
 
         public WeaponFactory(BulletData bulletData)
         {
@@ -17,8 +16,7 @@ namespace Asteroids.Fabrics
         public IWeapon Create(BarrelMarker barrel, ref Action fireAction)
         {
             var bullet = new Weapon(
-            _bulletData.Bullet,
-            barrel.transform,
+                barrel.transform,
             ref fireAction,
             _bulletData.Force,
             _bulletData.Damage

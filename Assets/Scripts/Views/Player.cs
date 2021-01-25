@@ -1,28 +1,39 @@
 ﻿using Asteroids.Interfaces;
 using Asteroids;
 using System;
+using Asteroids.Models;
 using UnityEngine;
 
 
-internal sealed class Player : MonoBehaviour, IDisposable, IPlayer, IDamagable
+namespace Asteroids.Views
 {
-    private Health _health;
-
-    public void Damage(float point)
+    internal sealed class Player : MonoBehaviour, IDisposable, IPlayer, IDamagable
     {
-        _health.Damage(point);
-    }
+        private Health _health;
 
-    public void Dispose()
-    {
-        Destroy(gameObject);
-    }
+        public Health Health => _health;
 
-    public void InjectHealth(Health health)
-    {
-        if (_health == null)
+        public void Damage(float point)
         {
-            _health = health;
+            _health.Damage(point);
+        }
+
+        public void Death()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            Destroy(gameObject);
+        }
+
+        public void InjectHealth(Health health)
+        {
+            if (_health == null)
+            {
+                _health = health;
+            }
         }
     }
 }

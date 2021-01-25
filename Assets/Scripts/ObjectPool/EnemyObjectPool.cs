@@ -4,28 +4,30 @@ using System.Collections.Generic;
 using Asteroids.Fabrics;
 using Asteroids;
 using System.Linq;
+using Asteroids.Models;
+using Asteroids.Services;
 using UnityEngine;
 
 
 namespace Asteroids.ObjectPool
 {
-    internal static class EnemyObjectPool
+    internal class EnemyObjectPool : IPool
     {
-        private static readonly Dictionary<string, HashSet<IEnemy>> _enemyCollection = new Dictionary<string, HashSet<IEnemy>>();
+        private readonly Dictionary<string, HashSet<IEnemy>> _enemyCollection = new Dictionary<string, HashSet<IEnemy>>();
 
-        private static IEnemy CreateEnemy(string typeString)
+        private static IEnemy CreateEnemy(string typeString, float health)
         {
             IEnemy enemy = null;
             switch(typeString)
             {
                 case "AsteroidEnemy":
-                    enemy = new AsteroidFactory().Create(new Health(20.0f));
+                    enemy = new AsteroidFactory().Create(new Health(health));
                     break;
                 case "Comet":
-                    enemy = CometFactory.CreateEnemy(new Health(20.0f));
+                    enemy = CometFactory.CreateEnemy(new Health(health));
                     break;
                 case "EnemyShip":
-                    enemy = new EnemyShipFactory().Create(new Health(30.0f));
+                    enemy = new EnemyShipFactory().Create(new Health(health));
                     break;
                 default:
                     throw new NullReferenceException("Такого типа нет в пуле объектов врагов");
@@ -34,32 +36,43 @@ namespace Asteroids.ObjectPool
         }
 
 
-        private static HashSet<IEnemy> GetListOfEnemy(string typeString)
+        private HashSet<IEnemy> GetListOfEnemy(string typeString)
         {
             return _enemyCollection.ContainsKey(typeString) ? _enemyCollection[typeString] : _enemyCollection[typeString] = new HashSet<IEnemy>();
         }
 
-        public static T GetEnemy<T>() where T: IEnemy
+        public IEnemy Get<IEnemy>(Vector3 position, float points)
         {
-            var type = typeof(T).Name;
+            var type = typeof(IEnemy).Name;
+            
+            var enemy = GetListOfEnemy(type).FirstOrDefault(x => (x is MonoBehaviour) && !(x as MonoBehaviour).gameObject.activeSelf);
 
-            var enemy = GetListOfEnemy(type).FirstOrDefault(x => !(x as MonoBehaviour).gameObject.activeSelf);
 
             if(enemy == null)
             {
                 Debug.Log("Пустой враг. Создаю нового");
-                enemy = CreateEnemy(type);
+                enemy = CreateEnemy(type, points);
                 _enemyCollection[type].Add(enemy);
             }
-
-            (enemy as MonoBehaviour).gameObject.SetActive(true);
-            return (T)enemy;
+            enemy.InjectHealth(new Health(points));
+            GameObject go = null;
+            if (enemy.TryGetAbstract<MonoBehaviour>(out var enemyMono))
+            {
+                go = enemyMono.gameObject;
+                go.transform.position = position;
+                go.SetActive(true);
+            }
+            else
+            {
+                Debug.LogError($"Тип {typeof(IEnemy).Name} не является MonoBehaviour");
+                
+            }
+            return (IEnemy)enemy;
         }
 
-        public static void ReturnToPool(IEnemy enemy)
+        public void ReturnToPool(GameObject obj)
         {
-            var go = (enemy as MonoBehaviour).gameObject;
-            go.SetActive(false);
+            obj.SetActive(false);
         }
     }
 }

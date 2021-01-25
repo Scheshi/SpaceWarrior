@@ -1,6 +1,8 @@
 ﻿using Asteroids.Interfaces;
 using Asteroids.ObjectPool;
+using Asteroids.Services;
 using System;
+using Asteroids.Models;
 using UnityEngine;
 
 
@@ -10,6 +12,8 @@ namespace Asteroids.Views
     {
         private Health _health;
         private IDisposable _move;
+
+        public Health Health => _health;
 
         public void Damage(float point)
         {
@@ -25,7 +29,7 @@ namespace Asteroids.Views
 
         public void Death()
         {
-            EnemyObjectPool.ReturnToPool(this);
+            ServiceLocatorObjectPool.Get<EnemyObjectPool>().ReturnToPool(gameObject);
             if (!Equals(_move, null))
                 _move.Dispose();
         }

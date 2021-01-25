@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Asteroids
+namespace Asteroids.Models
 {
     [Serializable]
     internal class Health
