@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using Asteroids.Fabrics;
 using Asteroids.Interfaces;
 using Asteroids.Models;
@@ -25,6 +26,8 @@ namespace Asteroids.Services
             var resultEnemy = _serializator.Deserialize(_path);
             IEnemy[] enemyes = new IEnemy[resultEnemy.Length];
             var enemyFactory = new EnemyFactoryComposite();
+            
+            Debug.Log(resultEnemy[0].Unit.Health);
             for (int i = 0; i < enemyes.Length; i++)
             {
                 enemyes[i] = enemyFactory.Create

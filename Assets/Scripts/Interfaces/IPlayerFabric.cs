@@ -5,6 +5,6 @@ namespace Asteroids.Interfaces
 {
     interface IPlayerFabric
     {
-        IPlayer Create(GameObject gameObject);
+        T Create<T>(GameObject gameObject) where T: IPlayer;
     }
 }

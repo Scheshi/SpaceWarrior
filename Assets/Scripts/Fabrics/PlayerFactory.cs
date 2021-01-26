@@ -18,16 +18,17 @@ namespace Asteroids.Fabrics
             return player;
         }
 
-        public IPlayer Create(GameObject gameObject)
+        public TPlayer Create<TPlayer>(GameObject gameObject) where TPlayer: IPlayer
         {
-            return GameObject.Instantiate(gameObject).AddComponent<Player>();
+            var player = (IPlayer)GameObject.Instantiate(gameObject).AddComponent<Player>();
+            return (TPlayer)player;
         }
 
-        public IPlayer Create(GameObject gameObject, GameObject particles, Health health)
+        public T Create<T>(GameObject gameObject, GameObject particles, Health health) where T: IPlayer
         {
             var player = Create(gameObject, health);
             GameObject.Instantiate(particles, ((MonoBehaviour)player).transform);
-            return player;
+            return (T)player;
         }
     }
 }

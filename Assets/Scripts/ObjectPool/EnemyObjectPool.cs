@@ -16,23 +16,36 @@ namespace Asteroids.ObjectPool
         private readonly Dictionary<string, HashSet<IEnemy>> _enemyCollection = new Dictionary<string, HashSet<IEnemy>>();
         private readonly EnemyFactoryComposite _enemyFactory = new EnemyFactoryComposite();
 
+        public void InitializeEnemyesFromParser(EnemyParser parser)
+        {
+            var deparseEnemyes = parser.Deparse();
+            foreach (var enemy in deparseEnemyes)
+            {
+                GetListOfEnemy(enemy.GetType().Name).Add(enemy);
+            }
+        }
+        
         private HashSet<IEnemy> GetListOfEnemy(string typeString)
         {
-            return _enemyCollection.ContainsKey(typeString) ? _enemyCollection[typeString] : _enemyCollection[typeString] = new HashSet<IEnemy>();
+            return _enemyCollection.ContainsKey(typeString)
+                ? _enemyCollection[typeString]
+                : _enemyCollection[typeString] = new HashSet<IEnemy>();
         }
 
         public TEnemy Get<TEnemy>(Vector3 position, float points)
         {
             var type = typeof(TEnemy).Name;
+
+            var list = GetListOfEnemy(type);
             
-            var enemy = GetListOfEnemy(type).FirstOrDefault(x => (x.TryGetAbstract<MonoBehaviour>(out var mono)) && !mono.gameObject.activeSelf);
+            var enemy = list.FirstOrDefault(x => (x.TryGetAbstract<MonoBehaviour>(out var mono)) && !mono.gameObject.activeSelf);
 
 
             if(enemy == null)
             {
                 Debug.Log("Пустой враг. Создаю нового");
                 enemy = _enemyFactory.Create(new Health(points), type);
-                _enemyCollection[type].Add(enemy);
+                list.Add(enemy);
             }
             enemy.InjectHealth(new Health(points));
             GameObject go = null;

@@ -28,7 +28,9 @@ namespace Asteroids
             ServiceLocatorObjectPool.Send(enemyPool);
             ServiceLocatorObjectPool.Send(new BulletObjectPool());
 
-            var player = (Player)new PlayerFactory().Create(_playerData.PlayerPrefab, _playerData.ParticlesAroundPlayer, new Health(_playerData.Hp));
+            enemyPool.InitializeEnemyesFromParser(new EnemyParser());
+            
+            var player = new PlayerFactory().Create<Player>(_playerData.PlayerPrefab, _playerData.ParticlesAroundPlayer, new Health(_playerData.Hp));
 
             var playerTransform = player.transform;
             
@@ -66,8 +68,7 @@ namespace Asteroids
                 );
 
             var cometTransform = comet.transform;
-            var enemyes = new EnemyParser().Deparse();
-            
+
             cometTransform.position = new Vector2(
                 cometTransform.position.x + Random.Range(-5.0f, 5.0f),
                 cometTransform.position.y + Random.Range(-5.0f, 5.0f));
