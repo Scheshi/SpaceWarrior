@@ -56,6 +56,8 @@ namespace Asteroids
                 inputManager.Fire
                 );
 
+            inputManager.Fire += weapon.Fire;
+            
             // и попытка его достать оттуда
             var asteroid = ServiceLocatorObjectPool.Get<EnemyObjectPool>().Get<AsteroidEnemy>(
                 new Vector3(Random.Range(-3.0f, 3.0f), Random.Range(-3.0f, 3.0f), 0.0f),
@@ -69,11 +71,7 @@ namespace Asteroids
 
             var cometTransform = comet.transform;
 
-            cometTransform.position = new Vector2(
-                cometTransform.position.x + Random.Range(-5.0f, 5.0f),
-                cometTransform.position.y + Random.Range(-5.0f, 5.0f));
-
-            cometTransform.up = playerTransform.position - comet.transform.position;
+            //cometTransform.up = playerTransform.position - comet.transform.position;
             new CometMove(new MoveTransform(comet.transform, 1.0f), this)
                 .Move(cometTransform.up.x, cometTransform.up.y, Time.deltaTime);
 
@@ -100,6 +98,8 @@ namespace Asteroids
                 enemy.GetComponentInChildren<BarrelMarker>(), 
                 persecutionMove.Stoping
                 );
+            
+            persecutionMove.Stoping += enemyWeapon.Fire;
         }
 
         private void Update()

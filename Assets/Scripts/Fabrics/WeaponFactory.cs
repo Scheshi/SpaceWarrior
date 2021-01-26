@@ -22,8 +22,6 @@ namespace Asteroids.Fabrics
             _bulletData.Damage
             );
 
-            fireAction += bullet.Fire;
-
 
             return bullet;
         }
