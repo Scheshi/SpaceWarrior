@@ -70,8 +70,7 @@ namespace Asteroids
                 );
 
             var cometTransform = comet.transform;
-
-            //cometTransform.up = playerTransform.position - comet.transform.position;
+            
             new CometMove(new MoveTransform(comet.transform, 1.0f), this)
                 .Move(cometTransform.up.x, cometTransform.up.y, Time.deltaTime);
 
@@ -81,6 +80,7 @@ namespace Asteroids
                 );
 
             var enemyShipTransform = enemy.transform;
+            //Еще один тип перемещения через Bridge
             var persecutionMove = new UpdatablePersecutionMove(enemyShipTransform, playerTransform, _playerData.Speed / 2, this);
             var persecutionRotation = new UpdatablePersecutionRotation(enemyShipTransform, playerTransform, this);
             var enemyShip = new Ship(persecutionMove, persecutionRotation);
