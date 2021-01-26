@@ -5,6 +5,7 @@ using Asteroids.Services;
 using Asteroids.Views;
 using System.Collections.Generic;
 using Asteroids.Models;
+using Models;
 using UnityEngine;
 
 
@@ -50,7 +51,7 @@ namespace Asteroids
             var weapon = new WeaponFactory(_bulletData)
                 .Create(
                 player.GetComponentInChildren<BarrelMarker>(),
-                ref inputManager.Fire
+                inputManager.Fire
                 );
 
             // и попытка его достать оттуда
@@ -65,6 +66,7 @@ namespace Asteroids
                 );
 
             var cometTransform = comet.transform;
+            var enemyes = new EnemyParser().Deparse();
             
             cometTransform.position = new Vector2(
                 cometTransform.position.x + Random.Range(-5.0f, 5.0f),
@@ -94,8 +96,8 @@ namespace Asteroids
                     Force = _bulletData.Force / 2
                 })
                 .Create(
-                enemy.GetComponentInChildren<BarrelMarker>(),
-                ref persecutionMove.Stoping
+                enemy.GetComponentInChildren<BarrelMarker>(), 
+                persecutionMove.Stoping
                 );
         }
 

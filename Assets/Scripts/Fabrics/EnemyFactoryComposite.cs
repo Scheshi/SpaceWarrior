@@ -9,12 +9,12 @@ namespace Asteroids.Fabrics
     {
         public TEnemy Create<TEnemy>(Health health)
         {
-            return (TEnemy)Create(health, typeof(TEnemy));
+            return (TEnemy)Create(health, typeof(TEnemy).Name);
         }
 
-        public IEnemy Create(Health health, Type type)
+        public IEnemy Create(Health health, string typeName)
         {
-            switch (type.Name)
+            switch (typeName)
             {
                 case "AsteroidEnemy":
                     return new AsteroidFactory().Create(health);

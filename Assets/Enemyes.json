@@ -1,0 +1,2 @@
+[ { "unit": { "type": "AsteroidEnemy", "health": "100" }}, { "unit": { "type": "Comet", "health": "150" }}, { "unit": {
+  "type": "EnemyShip", "health": "50" } } ]

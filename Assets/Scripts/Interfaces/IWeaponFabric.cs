@@ -4,6 +4,6 @@ namespace Asteroids.Interfaces
 {
     interface IWeaponFabric
     {
-        IWeapon Create(BarrelMarker barrel, ref Action fireAction);
+        IWeapon Create(BarrelMarker barrel, Action fireAction);
     }
 }

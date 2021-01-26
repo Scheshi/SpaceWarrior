@@ -18,7 +18,7 @@ namespace Asteroids
         private float _lastFireTime = 0.0f;
         
 
-        public Weapon(Transform startPositionTransform, ref Action fireAction, float force, float damage)
+        public Weapon(Transform startPositionTransform, Action fireAction, float force, float damage)
         {
             _fireAction = fireAction;
             _startPositionTransform = startPositionTransform;

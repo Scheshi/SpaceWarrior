@@ -13,11 +13,11 @@ namespace Asteroids.Fabrics
             _bulletData = bulletData;
         }
 
-        public IWeapon Create(BarrelMarker barrel, ref Action fireAction)
+        public IWeapon Create(BarrelMarker barrel, Action fireAction)
         {
             var bullet = new Weapon(
                 barrel.transform,
-            ref fireAction,
+            fireAction,
             _bulletData.Force,
             _bulletData.Damage
             );
