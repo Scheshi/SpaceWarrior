@@ -44,7 +44,7 @@ namespace Asteroids.ObjectPool
             if(enemy == null)
             {
                 Debug.Log("Пустой враг. Создаю нового");
-                enemy = _enemyFactory.Create(new Health(health), type, playerTransform, controller);
+                enemy = _enemyFactory.Create(new Health(health), type, playerTransform, controller, position);
                 list.Add(enemy);
             }
             enemy.InjectHealth(new Health(health));

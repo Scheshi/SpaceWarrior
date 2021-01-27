@@ -31,7 +31,13 @@ namespace Asteroids.Services
             for (int i = 0; i < enemyes.Length; i++)
             {
                 enemyes[i] = enemyFactory.Create
-                    (new Health(resultEnemy[i].Unit.Health), resultEnemy[i].Unit.Type, player, controller);
+                    (new Health(resultEnemy[i].Unit.Health),
+                    resultEnemy[i].Unit.Type,
+                    player,
+                    controller,
+                    //Затычка, задумываю, чтобы записывать в жсоне позицию для спавна
+                    new Vector3(Random.Range(-5.0f, 5.0f), Random.Range(-5.0f, 5.0f))
+                    );
             }
 
             return enemyes;

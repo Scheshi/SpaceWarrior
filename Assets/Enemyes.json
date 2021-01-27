@@ -1,2 +1,3 @@
 [ { "unit": { "type": "AsteroidEnemy", "health": "100" }}, { "unit": { "type": "Comet", "health": "150" }}, { "unit": {
+  "type": "Comet", "health": "50" } }, {"unit": { "type": "EnemyShip", "health": "100" }}, { "unit": { "type": "Comet", "health": "150" }}, { "unit": {
   "type": "AsteroidEnemy", "health": "50" } } ]
