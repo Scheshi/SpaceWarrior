@@ -1,5 +1,6 @@
 ﻿using Asteroids.Interfaces;
 using System;
+using Asteroids.Models;
 
 
 namespace Asteroids.Fabrics
@@ -15,15 +16,17 @@ namespace Asteroids.Fabrics
 
         public IWeapon Create(BarrelMarker barrel, Action fireAction)
         {
-            var bullet = new Weapon(
+            var weapon = new Weapon(
                 barrel.transform,
             fireAction,
             _bulletData.Force,
             _bulletData.Damage
             );
 
-
-            return bullet;
+            
+            var locker = new WeaponLocker(weapon);
+            
+            return locker;
         }
 
 
