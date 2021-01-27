@@ -25,7 +25,7 @@ namespace Asteroids.ObjectPool
 
         }
 
-        public Rigidbody2D Get<Rigidbody2D>(Vector3 position, float damage)
+        public Rigidbody2D Get<Rigidbody2D>(Vector3 position, float damage, Transform barrelTransform, GameController controller)
         {
             var bullet = GetListBullets(damage).FirstOrDefault(x => !x.gameObject.activeSelf);
             if(bullet == null)

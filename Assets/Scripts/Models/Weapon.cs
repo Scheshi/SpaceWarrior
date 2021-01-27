@@ -32,7 +32,7 @@ namespace Asteroids
             if (_lastFireTime + _cooldown < Time.time)
             {
                 _lastFireTime = Time.time;
-                var bullet = _bulletPool.Get<Rigidbody2D>(_startPositionTransform.position, _damage);
+                var bullet = _bulletPool.Get<Rigidbody2D>(_startPositionTransform.position, _damage, _startPositionTransform, null);
                 bullet.AddForce(_startPositionTransform.up * _force, ForceMode2D.Impulse);
             }
         }

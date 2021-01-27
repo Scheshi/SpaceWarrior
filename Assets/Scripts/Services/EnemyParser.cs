@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Asteroids.Services
 {
-    public sealed class EnemyParser
+    internal sealed class EnemyParser
     {
         private readonly JsonSerializator _serializator = new JsonSerializator();
         private readonly string _path = Application.dataPath + "/Enemyes.json";
@@ -20,7 +20,7 @@ namespace Asteroids.Services
         }
 
         
-        public IEnemy[] Deparse()
+        public IEnemy[] Deparse(Transform player, GameController controller)
         {
             if(!File.Exists(_path)) Debug.Log(_path);
             var resultEnemy = _serializator.Deserialize(_path);
@@ -31,7 +31,7 @@ namespace Asteroids.Services
             for (int i = 0; i < enemyes.Length; i++)
             {
                 enemyes[i] = enemyFactory.Create
-                    (new Health(resultEnemy[i].Unit.Health), resultEnemy[i].Unit.Type);
+                    (new Health(resultEnemy[i].Unit.Health), resultEnemy[i].Unit.Type, player, controller);
             }
 
             return enemyes;

@@ -1,8 +1,6 @@
 ﻿using Asteroids.Interfaces;
-using System;
 using System.Collections.Generic;
 using Asteroids.Fabrics;
-using Asteroids;
 using System.Linq;
 using Asteroids.Models;
 using Asteroids.Services;
@@ -16,13 +14,15 @@ namespace Asteroids.ObjectPool
         private readonly Dictionary<string, HashSet<IEnemy>> _enemyCollection = new Dictionary<string, HashSet<IEnemy>>();
         private readonly EnemyFactoryComposite _enemyFactory = new EnemyFactoryComposite();
 
-        public void InitializeEnemyesFromParser(EnemyParser parser)
+        public IEnemy[] InitializeEnemyesFromParser(EnemyParser parser, Transform playerTransform, GameController controller)
         {
-            var deparseEnemyes = parser.Deparse();
+            var deparseEnemyes = parser.Deparse(playerTransform, controller);
             foreach (var enemy in deparseEnemyes)
             {
                 GetListOfEnemy(enemy.GetType().Name).Add(enemy);
             }
+
+            return deparseEnemyes;
         }
         
         private HashSet<IEnemy> GetListOfEnemy(string typeString)
@@ -32,7 +32,7 @@ namespace Asteroids.ObjectPool
                 : _enemyCollection[typeString] = new HashSet<IEnemy>();
         }
 
-        public TEnemy Get<TEnemy>(Vector3 position, float points)
+        public TEnemy Get<TEnemy>(Vector3 position, float health, Transform playerTransform, GameController controller)
         {
             var type = typeof(TEnemy).Name;
 
@@ -44,10 +44,10 @@ namespace Asteroids.ObjectPool
             if(enemy == null)
             {
                 Debug.Log("Пустой враг. Создаю нового");
-                enemy = _enemyFactory.Create(new Health(points), type);
+                enemy = _enemyFactory.Create(new Health(health), type, playerTransform, controller);
                 list.Add(enemy);
             }
-            enemy.InjectHealth(new Health(points));
+            enemy.InjectHealth(new Health(health));
             GameObject go = null;
             if (enemy.TryGetAbstract<MonoBehaviour>(out var enemyMono))
             {

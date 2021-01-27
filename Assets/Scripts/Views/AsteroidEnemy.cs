@@ -28,6 +28,11 @@ namespace Asteroids.Views
             }
         }
 
+        public void InjectMovement(IDisposable persecutionMove)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Death()
         {
             ServiceLocatorObjectPool.Get<EnemyObjectPool>().ReturnToPool(gameObject);
