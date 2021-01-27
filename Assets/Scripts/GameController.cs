@@ -1,11 +1,6 @@
-﻿using Asteroids.Fabrics;
-using Asteroids.Interfaces;
-using Asteroids.ObjectPool;
+﻿using Asteroids.Interfaces;
 using Asteroids.Services;
-using Asteroids.Views;
 using System.Collections.Generic;
-using Asteroids.Models;
-using Services;
 using UnityEngine;
 
 

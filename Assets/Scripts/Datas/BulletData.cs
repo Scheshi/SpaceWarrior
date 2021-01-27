@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Data/BulletData")]
+[CreateAssetMenu(menuName = "Data/BulletData")]
 public class BulletData : ScriptableObject
 {
     public Rigidbody2D Bullet;

@@ -1,15 +1,12 @@
-using System.Dynamic;
-using Asteroids;
 using Asteroids.Fabrics;
 using Asteroids.Interfaces;
 using Asteroids.Models;
 using Asteroids.ObjectPool;
-using Asteroids.Services;
 using Asteroids.Views;
 using UnityEngine;
 
 
-namespace Services
+namespace Asteroids.Services
 {
     internal class Game
     {
@@ -68,7 +65,8 @@ namespace Services
             var weapon = new WeaponFactory(_bulletData)
                 .Create(
                     player.GetComponentInChildren<BarrelMarker>(),
-                    inputManager.Fire
+                    inputManager.Fire,
+                    _playerData.WeaponData
                 );
 
             inputManager.Fire += weapon.Fire;

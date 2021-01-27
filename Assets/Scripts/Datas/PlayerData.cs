@@ -6,6 +6,7 @@ namespace Asteroids
     [CreateAssetMenu(menuName = "Data/PlayerData")]
     public class PlayerData : ScriptableObject
     {
+        public WeaponData WeaponData;
         public GameObject PlayerPrefab;
         public GameObject ParticlesAroundPlayer;
         public float Speed;

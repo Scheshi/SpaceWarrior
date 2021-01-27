@@ -21,7 +21,7 @@ namespace Asteroids.Fabrics
             IEnemy enemy;
             switch (typeName)
             {
-                case "AsteroidEnemy":
+                case "Asteroid":
                     enemy = new AsteroidFactory().Create(health);
                     if (enemy.TryGetAbstract<MonoBehaviour>(out var monoAsteroid))
                     {
@@ -66,7 +66,8 @@ namespace Asteroids.Fabrics
                                 })
                             .Create(
                                 mono.GetComponentInChildren<BarrelMarker>(),
-                                persecutionMove.Stoping
+                                persecutionMove.Stoping,
+                                mono.GetComponent<EnemyShip>().Weapon
                             );
                         persecutionMove.Stoping += enemyWeapon.Fire;
                     }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c820f7026a4f59478aa0e11e19d33b8, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
+  WeaponData: {fileID: 11400000, guid: fc04c96a191d1cb438607658624bfd83, type: 2}
   PlayerPrefab: {fileID: 6530344021219819777, guid: ac639da7ab2bbc34e8240dfa2b99dd17,
     type: 3}
   ParticlesAroundPlayer: {fileID: 183190, guid: e9a6501da28be2b4986e8ba47c2e017c,

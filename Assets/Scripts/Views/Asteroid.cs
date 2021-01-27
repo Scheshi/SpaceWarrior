@@ -1,6 +1,5 @@
 ﻿using Asteroids.Interfaces;
 using Asteroids.ObjectPool;
-using Asteroids;
 using System;
 using Asteroids.Models;
 using UnityEngine;
@@ -9,7 +8,7 @@ using Asteroids.Services;
 
 namespace Asteroids.Views
 {
-    internal sealed class AsteroidEnemy : MonoBehaviour, IEnemy, IDisposable
+    internal sealed class Asteroid : MonoBehaviour, IEnemy, IDisposable
     {
         private Health _health;
 
@@ -26,11 +25,6 @@ namespace Asteroids.Views
             {
                 _health = health;
             }
-        }
-
-        public void InjectMovement(IDisposable persecutionMove)
-        {
-            throw new NotImplementedException();
         }
 
         public void Death()
