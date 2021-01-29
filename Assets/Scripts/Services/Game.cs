@@ -64,21 +64,26 @@ namespace Asteroids.Services
         private (IPlayer, IShip) CreatePlayer(IWeaponFabric weaponFabric, WeaponData data)
         { 
             var playerInfo = new PlayerInitializator().ConstructPlayer(_playerData);
-            
-            playerInfo.Item1.TryGetAbstract<MonoBehaviour>(out var monoPlayer);
+
+            if (playerInfo.Item1.TryGetAbstract<MonoBehaviour>(out var monoPlayer))
+            {
                 _inputManager = new InputManager(Camera.main, monoPlayer.transform,
                     _gameController);
                 IWeapon weapon = weaponFabric.Create(monoPlayer.GetComponentInChildren<BarrelMarker>(),
                     _inputManager.Fire,
                     data);
-            
-                _inputManager.Fire += weapon.Fire;
+                //Weapon Locker
+                var weaponProxy = new WeaponLocker(weapon);
+                _inputManager.Fire += weaponProxy.Fire;
 
                 var ship = playerInfo.Item2;
                 ship.SetNewWeapon(weapon);
                 _inputManager.Move += ship.Move;
                 _inputManager.Rotation += ship.Rotation;
                 return playerInfo;
+            }
+            else throw new NullReferenceException("Тип " + playerInfo.Item1.GetType() + " не является MonoBehaviour");
+
 
         }
     }
