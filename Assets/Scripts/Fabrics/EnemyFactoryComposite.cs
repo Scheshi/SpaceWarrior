@@ -19,16 +19,16 @@ namespace Asteroids.Fabrics
             GameController gameController, Vector3 position)
         {
             IEnemy enemy;
-            switch (typeName)
+            switch (typeName.ToLower())
             {
-                case "Asteroid":
+                case "asteroid":
                     enemy = new AsteroidFactory().Create(health);
                     if (enemy.TryGetAbstract<MonoBehaviour>(out var monoAsteroid))
                     {
                         monoAsteroid.transform.position = position;
                     }
                     break;
-                case "Comet":
+                case "comet":
                     enemy = new CometFactory().Create(health);
                     if (enemy.TryGetAbstract<MonoBehaviour>(out var monoEnemy))
                     {
@@ -42,7 +42,7 @@ namespace Asteroids.Fabrics
 
                     break;
 
-                case "EnemyShip":
+                case "enemyship":
                     enemy = new EnemyShipFactory().Create(health);
                     if (enemy.TryGetAbstract<MonoBehaviour>(out var mono))
                     {

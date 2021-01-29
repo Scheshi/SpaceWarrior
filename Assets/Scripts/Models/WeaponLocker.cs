@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Asteroids.Models
 {
-    internal class WeaponLocker : IWeapon
+    internal class WeaponLocker : IFire
     {
         private IWeapon _weapon;
 

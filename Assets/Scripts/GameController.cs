@@ -1,6 +1,8 @@
-﻿using Asteroids.Interfaces;
+﻿using System;
+using Asteroids.Interfaces;
 using Asteroids.Services;
 using System.Collections.Generic;
+using Asteroids.Models;
 using UnityEngine;
 
 
@@ -10,13 +12,15 @@ namespace Asteroids
     {
         [SerializeField] private PlayerData _playerData;
         [SerializeField] private BulletData _bulletData;
+        private Game _game;
         private readonly List<IFrameUpdatable> _updatables = new List<IFrameUpdatable>();
         private readonly List<IFixedUpdatable> _fixedUpdatables = new List<IFixedUpdatable>();
 
         public void Start()
         {
-            var game = new Game(_playerData, _bulletData, this);
-            game.Construct();
+            //Facade
+            _game = new Game(_playerData, _bulletData, this);
+            _game.Construct();
         }
 
         private void Update()

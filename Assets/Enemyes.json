@@ -1,2 +1,2 @@
-[ { "unit": { "type": "Asteroid", "health": "100" }}, { "unit": { "type": "Comet", "health": "150" }}, { "unit": {
-  "type": "Comet", "health": "50" } } ]
+[ { "unit": { "type": "asteroid", "health": "100" }}, { "unit": { "type": "comet", "health": "150" }}, { "unit": {
+  "type": "asteroid", "health": "50" } } ]

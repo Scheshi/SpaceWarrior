@@ -20,16 +20,12 @@ namespace Asteroids.Fabrics
             var weapon = new Weapon(
                 barrel.transform,
                 fireAction,
-                data.FireClip,
-                data.FireRate,
+                data,
                 _bulletData.Force,
                 _bulletData.Damage
             );
 
-            
-            var locker = new WeaponLocker(weapon);
-            
-            return locker;
+            return weapon;
         }
 
 

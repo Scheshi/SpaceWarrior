@@ -1,8 +1,10 @@
+using System;
 using Asteroids.Fabrics;
 using Asteroids.Interfaces;
 using Asteroids.Models;
 using Asteroids.ObjectPool;
 using Asteroids.Views;
+using Services;
 using UnityEngine;
 
 
@@ -13,6 +15,17 @@ namespace Asteroids.Services
         private readonly PlayerData _playerData;
         private readonly BulletData _bulletData;
         private readonly GameController _gameController;
+        private InputManager _inputManager;
+        
+        private (IPlayer, IShip) _playerInfo;
+
+        public IPlayer Player => _playerInfo.Item1;
+        
+        public IShip PlayerShip => _playerInfo.Item2;
+
+        public InputManager Manager => _inputManager;
+
+        
         
         public Game(PlayerData playerData, BulletData bulletData, GameController controller)
         {
@@ -20,16 +33,24 @@ namespace Asteroids.Services
             _bulletData = bulletData;
             _gameController = controller;
         }
+
+        
         
         public void Construct()
         {
             ServiceLocatorObjectPool.Send(new BulletObjectPool());
-            var player = CreatePlayer();
-            var enemyes = CreateEnemyes(((MonoBehaviour)player).transform);
+            _playerInfo = CreatePlayer(new WeaponFactory(_bulletData), _playerData.WeaponData);
+            var enemies = CreateEnemies(((MonoBehaviour)Player).transform);
+            
+            //Decorator
+            var forceModification = new ForceModification(Resources.Load<AudioClip>("Audios/force_weapon"), 5.0f, 30.0f);
+            forceModification.AddModification(PlayerShip.Weapon);
+            //Decorator remove
+            forceModification.RemoveMofication(PlayerShip.Weapon);
         }
 
 
-        private IEnemy[] CreateEnemyes(Transform playerTransform)
+        private IEnemy[] CreateEnemies(Transform playerTransform)
         {
             var enemyPool = new EnemyObjectPool();
 
@@ -40,38 +61,25 @@ namespace Asteroids.Services
             return enemyPool.InitializeEnemyesFromParser(new EnemyParser(), playerTransform, _gameController);
         }
 
-        private IPlayer CreatePlayer()
-        {
-            var player = new PlayerFactory().Create<Player>(_playerData.PlayerPrefab, _playerData.ParticlesAroundPlayer, new Health(_playerData.Hp));
-
-            var playerTransform = player.transform;
+        private (IPlayer, IShip) CreatePlayer(IWeaponFabric weaponFabric, WeaponData data)
+        { 
+            var playerInfo = new PlayerInitializator().ConstructPlayer(_playerData);
             
-            var inputManager = new InputManager(Camera.main, playerTransform, _gameController);
-            var mainCameraTransform = Camera.main.transform;
-            mainCameraTransform.parent = playerTransform;
-            mainCameraTransform.position = new Vector3(0.0f, 0.0f, _playerData.CameraOffset);
+            playerInfo.Item1.TryGetAbstract<MonoBehaviour>(out var monoPlayer);
+                _inputManager = new InputManager(Camera.main, monoPlayer.transform,
+                    _gameController);
+                IWeapon weapon = weaponFabric.Create(monoPlayer.GetComponentInChildren<BarrelMarker>(),
+                    _inputManager.Fire,
+                    data);
+            
+                _inputManager.Fire += weapon.Fire;
 
-            var moveTransform = new AccelerationMove(playerTransform, _playerData.Speed, _playerData.Acceleration);
-            var rotation = new RotationShip(playerTransform);
+                var ship = playerInfo.Item2;
+                ship.SetNewWeapon(weapon);
+                _inputManager.Move += ship.Move;
+                _inputManager.Rotation += ship.Rotation;
+                return playerInfo;
 
-            var ship = new ShipFabric(moveTransform, rotation).Create<Ship>();
-
-
-            inputManager.AccelerateDown += ship.RemoveAcceleration;
-            inputManager.AccelerateUp += ship.AddAcceleration;
-            inputManager.Move += ship.Move;
-            inputManager.Rotation += ship.Rotation;
-
-            var weapon = new WeaponFactory(_bulletData)
-                .Create(
-                    player.GetComponentInChildren<BarrelMarker>(),
-                    inputManager.Fire,
-                    _playerData.WeaponData
-                );
-
-            inputManager.Fire += weapon.Fire;
-
-            return player;
         }
     }
 }

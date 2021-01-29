@@ -27,7 +27,6 @@ namespace Asteroids.Services
             IEnemy[] enemyes = new IEnemy[resultEnemy.Length];
             var enemyFactory = new EnemyFactoryComposite();
             
-            Debug.Log(resultEnemy[0].Unit.Health);
             for (int i = 0; i < enemyes.Length; i++)
             {
                 enemyes[i] = enemyFactory.Create
