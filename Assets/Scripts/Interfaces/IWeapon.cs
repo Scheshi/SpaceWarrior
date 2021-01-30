@@ -18,5 +18,6 @@ namespace Asteroids.Interfaces
         void ResetFireSound();
 
         void ResetFireRate();
+        void ResetDamage(float damage);
     }
 }

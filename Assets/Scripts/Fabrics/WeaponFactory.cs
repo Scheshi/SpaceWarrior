@@ -21,8 +21,7 @@ namespace Asteroids.Fabrics
                 barrel.transform,
                 fireAction,
                 data,
-                _bulletData.Force,
-                _bulletData.Damage
+                _bulletData
             );
 
             return weapon;

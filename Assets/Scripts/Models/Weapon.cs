@@ -14,7 +14,8 @@ namespace Asteroids
         private Transform _startPositionTransform;
         private readonly BulletObjectPool _bulletPool;
         private AudioClip _fireSound;
-        private WeaponData _weaponData;
+        private readonly WeaponData _weaponData;
+        private readonly BulletData _bulletData;
         private Action _fireAction;
         private float _force;
         private float _damage;
@@ -24,20 +25,25 @@ namespace Asteroids
         #endregion
         
 
+        #region Constructors
 
         public Weapon(Transform startPositionTransform, Action fireAction,
-            WeaponData weaponData, float force, float damage)
+            WeaponData weaponData, BulletData bulletData)
         {
             _weaponData = weaponData;
             _fireSound = weaponData.FireClip;
             _fireAction = fireAction;
             _startPositionTransform = startPositionTransform;
             _fireRate = weaponData.FireRate;
-            _force = force;
-            _damage = damage;
+            _force = bulletData.Force;
+            _damage = bulletData.Damage;
             _bulletPool = ServiceLocatorObjectPool.Get<BulletObjectPool>();
         }
 
+        #endregion
+        
+        #region Methods
+        
         public void Fire()
         {
             if (_lastFireTime + _fireRate < Time.time)
@@ -76,9 +82,14 @@ namespace Asteroids
 
         public void SetNewDamage(float damage)
         {
-            _damage = damage;
+            _damage += damage;
         }
 
+        public void ResetDamage(float damage)
+        {
+            _damage -= damage;
+        }
+        
         public void ResetFireRate()
         {
             _fireRate = _weaponData.FireRate;
@@ -88,5 +99,7 @@ namespace Asteroids
         {
             _fireSound = _weaponData.FireClip;
         }
+        
+        #endregion
     }
 }

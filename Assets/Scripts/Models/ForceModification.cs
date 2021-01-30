@@ -28,6 +28,8 @@ namespace Asteroids.Models
         public void RemoveMofication(IWeapon weapon)
         {
             weapon.ResetFireSound();
+            weapon.ResetFireRate();
+            weapon.ResetDamage(_damage);
         }
     }
 }

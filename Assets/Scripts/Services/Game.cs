@@ -3,7 +3,6 @@ using Asteroids.Fabrics;
 using Asteroids.Interfaces;
 using Asteroids.Models;
 using Asteroids.ObjectPool;
-using Asteroids.Views;
 using Services;
 using UnityEngine;
 
@@ -46,7 +45,7 @@ namespace Asteroids.Services
             var forceModification = new ForceModification(Resources.Load<AudioClip>("Audios/force_weapon"), 5.0f, 30.0f);
             forceModification.AddModification(PlayerShip.Weapon);
             //Decorator remove
-            forceModification.RemoveMofication(PlayerShip.Weapon);
+            //forceModification.RemoveMofication(PlayerShip.Weapon);
         }
 
 
