@@ -67,7 +67,7 @@ namespace Asteroids.Fabrics
 
                 return enemy;
             }
-            else throw new NullReferenceException(path + " is " + prefab);
+            else throw new NullReferenceException(path + " is not exists");
         }
 
         public IEnemy Create(GameObject obj)

@@ -47,7 +47,7 @@ namespace Asteroids.Fabrics
                 enemy.transform.position = position;
                 return enemy;
             }
-            else throw new NullReferenceException(path + " is " + prefab);
+            else throw new NullReferenceException(path + " is not exists");
 
         }
 

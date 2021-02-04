@@ -46,7 +46,7 @@ namespace Asteroids.Services
             {
                 //Decorator
                 var forceModification = new ForceModification(forceClip,
-                    5.0f, 30.0f);
+                    1.0f, 30.0f);
                 forceModification.AddModification(PlayerShip.Weapon);
                 //Decorator remove
                 //forceModification.RemoveMofication(PlayerShip.Weapon);
