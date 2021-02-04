@@ -40,14 +40,19 @@ namespace Asteroids.Services
             ServiceLocatorObjectPool.Send(new BulletObjectPool());
             _playerInfo = CreatePlayer(new WeaponFactory(_bulletData), _playerData.WeaponData);
             var enemies = CreateEnemies(((MonoBehaviour)Player).transform);
-            
-            //Decorator
-            var forceModification = new ForceModification(
-                Resources.Load<AudioClip>("Audios/force_weapon"),
-                5.0f, 30.0f);
-            forceModification.AddModification(PlayerShip.Weapon);
-            //Decorator remove
-            //forceModification.RemoveMofication(PlayerShip.Weapon);
+
+            AudioClip forceClip = Resources.Load<AudioClip>("Audios/force_weapon");
+            if (forceClip != null)
+            {
+                //Decorator
+                var forceModification = new ForceModification(forceClip,
+                    5.0f, 30.0f);
+                forceModification.AddModification(PlayerShip.Weapon);
+                //Decorator remove
+                //forceModification.RemoveMofication(PlayerShip.Weapon);
+            }
+            else throw new NullReferenceException("Нет файла Resources/Audios/force_weapon");
+
         }
 
 
