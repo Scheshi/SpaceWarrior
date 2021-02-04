@@ -5,19 +5,14 @@ namespace Asteroids.Interfaces
 {
     interface IWeapon : IFire, IDisposable
     {
-        void SetNewFireSound(AudioClip fireClip);
+        void SetFireSound(AudioClip fireClip, out AudioClip oldClip);
 
-        void SetNewBarrelPosition(Transform barrel);
+        void SetBarrelPosition(Transform barrel, out Transform oldBarrel);
 
-        void SetNewForce(float force);
+        void SetForce(float force);
 
-        void SetNewFireRate(float fireRate);
+        void SetFireRate(float fireRate);
 
-        void SetNewDamage(float damage);
-
-        void ResetFireSound();
-
-        void ResetFireRate();
-        void ResetDamage(float damage);
+        void SetDamage(float damage);
     }
 }

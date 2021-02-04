@@ -14,8 +14,6 @@ namespace Asteroids
         private Transform _startPositionTransform;
         private readonly BulletObjectPool _bulletPool;
         private AudioClip _fireSound;
-        private readonly WeaponData _weaponData;
-        private readonly BulletData _bulletData;
         private Action _fireAction;
         private float _force;
         private float _damage;
@@ -30,7 +28,6 @@ namespace Asteroids
         public Weapon(Transform startPositionTransform, Action fireAction,
             WeaponData weaponData, BulletData bulletData)
         {
-            _weaponData = weaponData;
             _fireSound = weaponData.FireClip;
             _fireAction = fireAction;
             _startPositionTransform = startPositionTransform;
@@ -60,46 +57,33 @@ namespace Asteroids
             _fireAction -= Fire;
         }
 
-        public void SetNewFireSound(AudioClip fireClip)
+        public void SetFireSound(AudioClip fireClip, out AudioClip oldClip)
         {
+            oldClip = _fireSound;
             _fireSound = fireClip;
         }
 
-        public void SetNewBarrelPosition(Transform barrel)
+        public void SetBarrelPosition(Transform barrel, out Transform oldBarrel)
         {
+            oldBarrel = _startPositionTransform;
             _startPositionTransform = barrel;
         }
 
-        public void SetNewForce(float force)
+        public void SetForce(float force)
         {
-            _force = force;
+            _force += force;
         }
 
-        public void SetNewFireRate(float fireRate)
+        public void SetFireRate(float fireRate)
         {
-            _fireRate = fireRate;
+            _fireRate += fireRate;
         }
 
-        public void SetNewDamage(float damage)
+        public void SetDamage(float damage)
         {
             _damage += damage;
         }
 
-        public void ResetDamage(float damage)
-        {
-            _damage -= damage;
-        }
-        
-        public void ResetFireRate()
-        {
-            _fireRate = _weaponData.FireRate;
-        }
-
-        public void ResetFireSound()
-        {
-            _fireSound = _weaponData.FireClip;
-        }
-        
         #endregion
     }
 }
