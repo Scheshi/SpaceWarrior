@@ -1,4 +1,5 @@
-﻿using Asteroids.Interfaces;
+﻿using System;
+using Asteroids.Interfaces;
 using Asteroids.Models;
 using Asteroids.Views;
 using Models;
@@ -37,16 +38,23 @@ namespace Asteroids.Fabrics
         }
 
         public IEnemy Create(Health health, Vector3 position, Transform playerTransform, GameController gameController)
-        {
-            var enemy = GameObject.Instantiate(Resources.Load<Comet>("Prefabs/Comet"));
-            enemy.InjectHealth(health);
-            health.Death += enemy.Death;
-            var cometTransform = enemy.transform;
-            cometTransform.position = position;
-            cometTransform.up = playerTransform.position - cometTransform.position;
-            new CometMove(new MoveTransform(cometTransform, 1.0f), gameController)
-                .Move(cometTransform.up.x, cometTransform.up.y, Time.deltaTime);
-            return enemy;
+        { 
+            string path = "Prefabs/Comet";
+            var prefab = Resources.Load<Comet>(path);
+            if (prefab)
+            {
+                var enemy = GameObject.Instantiate(prefab);
+                enemy.InjectHealth(health);
+                health.Death += enemy.Death;
+                var cometTransform = enemy.transform;
+                cometTransform.position = position;
+                cometTransform.up = playerTransform.position - cometTransform.position;
+                new CometMove(new MoveTransform(cometTransform, 1.0f), gameController)
+                    .Move(cometTransform.up.x, cometTransform.up.y, Time.deltaTime);
+                return enemy;
+            }
+
+            else throw new NullReferenceException(path + " is " + prefab);
         }
     }
 }

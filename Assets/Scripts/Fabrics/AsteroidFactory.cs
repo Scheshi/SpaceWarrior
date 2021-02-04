@@ -1,4 +1,5 @@
-﻿using Asteroids.Interfaces;
+﻿using System;
+using Asteroids.Interfaces;
 using Asteroids.Views;
 using Asteroids;
 using Asteroids.Models;
@@ -36,11 +37,18 @@ namespace Asteroids.Fabrics
 
         public IEnemy Create(Health health, Vector3 position, Transform playerTransform, GameController gameController)
         {
-            var enemy = GameObject.Instantiate(Resources.Load<Asteroid>("Prefabs/Asteroid"));
-            enemy.InjectHealth(health);
-            health.Death += enemy.Death;
-            enemy.transform.position = position;
-            return enemy;
+            string path = "Prefabs/Asteroid";
+            var prefab = Resources.Load<Asteroid>(path);
+            if (prefab)
+            {
+                var enemy = GameObject.Instantiate(prefab);
+                enemy.InjectHealth(health);
+                health.Death += enemy.Death;
+                enemy.transform.position = position;
+                return enemy;
+            }
+            else throw new NullReferenceException(path + " is " + prefab);
+
         }
 
         public IEnemy Create(GameObject obj)
