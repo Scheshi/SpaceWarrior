@@ -14,12 +14,6 @@ namespace Asteroids.Services
         private readonly JsonSerializator _serializator = new JsonSerializator();
         private readonly string _path = Application.dataPath + "/Enemyes.json";
 
-        public void Parse(params SerializableObjectInfo[] objects)
-        {
-            Debug.Log(_serializator.Serialize(objects));
-        }
-
-        
         public IEnemy[] Deparse(Transform player, GameController controller)
         {
             if(!File.Exists(_path)) Debug.Log(_path);

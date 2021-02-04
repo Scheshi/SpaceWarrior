@@ -44,10 +44,8 @@ namespace Asteroids.Fabrics
                         break;
                     }
                 }
-
                 if (enemies[i] == null) throw new ArgumentException("Указан неверный тип " + objectInfos[i].Unit.Type);
             }
-
             return enemies;
         }
         
