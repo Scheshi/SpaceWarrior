@@ -45,20 +45,26 @@ namespace Asteroids.Fabrics
                     new UpdatablePersecutionRotation(enemyShipTransform, playerTransform, gameController);
                 var enemyShip = new Ship(persecutionMove, persecutionRotation);
                 enemy.InjectMovement(persecutionMove);
-                var enemyWeapon = new WeaponFactory(
-                        //Временный костыль. Потом придумаю, как реализовать это через инспектор
-                        new BulletData()
-                        {
-                            Bullet = Resources.Load<Rigidbody2D>("Prefabs/Bullet"),
-                            Damage = 10.0f,
-                            Force = 5.0f
-                        })
-                    .Create(
-                        enemy.GetComponentInChildren<BarrelMarker>(),
-                        persecutionMove.Stoping,
-                        enemy.GetComponent<EnemyShip>().Weapon
-                    );
-                persecutionMove.Stoping += enemyWeapon.Fire;
+                var bulletPrefab = Resources.Load<Rigidbody2D>("Prefabs/Bullet");
+                if (bulletPrefab)
+                {
+                    var enemyWeapon = new WeaponFactory(
+                            //Временный костыль. Потом придумаю, как реализовать это через инспектор
+                            new BulletData()
+                            {
+                                Bullet = Resources.Load<Rigidbody2D>("Prefabs/Bullet"),
+                                Damage = 10.0f,
+                                Force = 5.0f
+                            })
+                        .Create(
+                            enemy.GetComponentInChildren<BarrelMarker>(),
+                            persecutionMove.Stoping,
+                            enemy.GetComponent<EnemyShip>().Weapon
+                        );
+                    persecutionMove.Stoping += enemyWeapon.Fire;
+                }
+                else throw new NullReferenceException("Bullet is null");
+
                 return enemy;
             }
             else throw new NullReferenceException(path + " is " + prefab);
