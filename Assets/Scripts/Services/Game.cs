@@ -42,7 +42,9 @@ namespace Asteroids.Services
             var enemies = CreateEnemies(((MonoBehaviour)Player).transform);
             
             //Decorator
-            var forceModification = new ForceModification(Resources.Load<AudioClip>("Audios/force_weapon"), 5.0f, 30.0f);
+            var forceModification = new ForceModification(
+                Resources.Load<AudioClip>("Audios/force_weapon"),
+                5.0f, 30.0f);
             forceModification.AddModification(PlayerShip.Weapon);
             //Decorator remove
             //forceModification.RemoveMofication(PlayerShip.Weapon);

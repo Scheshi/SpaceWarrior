@@ -24,22 +24,14 @@ namespace Asteroids.Services
         {
             if(!File.Exists(_path)) Debug.Log(_path);
             var resultEnemy = _serializator.Deserialize(_path);
-            IEnemy[] enemyes = new IEnemy[resultEnemy.Length];
             var enemyFactory = new EnemyFactoryComposite();
-            
-            for (int i = 0; i < enemyes.Length; i++)
+            var positions = new Vector2[resultEnemy.Length];
+            for (int i = 0; i < positions.Length; i++)
             {
-                enemyes[i] = enemyFactory.Create
-                    (new Health(resultEnemy[i].Unit.Health),
-                    resultEnemy[i].Unit.Type,
-                    player,
-                    controller,
-                    //Затычка, задумываю, чтобы записывать в жсоне позицию для спавна
-                    new Vector3(Random.Range(-5.0f, 5.0f), Random.Range(-5.0f, 5.0f))
-                    );
+                positions[i] = new Vector2(Random.Range(-5.0f, 5.0f), Random.Range(-5.0f, 5.0f));
             }
-
-            return enemyes;
+            
+            return enemyFactory.Parsing(resultEnemy, player, controller, positions);
 
         }
     }

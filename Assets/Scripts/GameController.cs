@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Asteroids
 {
-    internal class GameController : MonoBehaviour
+    public class GameController : MonoBehaviour
     {
         [SerializeField] private PlayerData _playerData;
         [SerializeField] private BulletData _bulletData;
