@@ -16,6 +16,8 @@ namespace Asteroids.Views
 
         public WeaponData Weapon => _weaponData;
         public Health Health => _health;
+        public float Attack { get; set; }
+        public float Defence { get; set; }
 
         public void Damage(float point)
         {
@@ -35,6 +37,8 @@ namespace Asteroids.Views
             if (!Equals(_move, null))
                 _move.Dispose();
         }
+
+        
 
         public void InjectHealth(Health health)
         {

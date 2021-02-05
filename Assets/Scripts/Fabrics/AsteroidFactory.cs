@@ -1,11 +1,12 @@
 ﻿using System;
+using Assets.Scripts.Models;
 using Asteroids.Interfaces;
 using Asteroids.Views;
 using Asteroids;
 using Asteroids.Models;
 using Models;
-using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 namespace Asteroids.Fabrics
@@ -39,12 +40,21 @@ namespace Asteroids.Fabrics
         {
             string path = "Prefabs/Asteroid";
             var prefab = Resources.Load<Asteroid>(path);
+            
             if (prefab)
             {
                 var enemy = GameObject.Instantiate(prefab);
                 enemy.InjectHealth(health);
                 health.Death += enemy.Death;
                 enemy.transform.position = position;
+                if (Random.Range(0.0f, 100.0f) > 80.0f)
+                {
+                    var modification = new EntityModification(enemy);
+                    modification.Add(new AttackEntityModification(enemy, 20.0f));
+                    modification.Add(new DefenceEnemyModification(enemy, 30.0f));
+                    modification.Handle();
+                    enemy.GetComponent<SpriteRenderer>().color = Color.red;
+                }
                 return enemy;
             }
             else throw new NullReferenceException(path + " is not exists");

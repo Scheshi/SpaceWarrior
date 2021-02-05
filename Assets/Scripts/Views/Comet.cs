@@ -19,6 +19,9 @@ namespace Asteroids.Views
             _health.Damage(point);
         }
 
+        public float Attack { get; set; }
+        public float Defence { get; set; }
+
         public void InjectHealth(Health health)
         {
             if (_health == null)
