@@ -20,18 +20,18 @@ namespace Asteroids.Services
         _rewindKey = rewindKey;
     }
     
-    public void AddRewinder(Rigidbody2D transform)
+    public void AddRewinder(Rigidbody2D rigidbody)
     {
-        if (_points.FirstOrDefault(x => x.Key == transform).Key == null)
+        if (_points.FirstOrDefault(x => x.Key == rigidbody).Key == null)
         {
-            _points.Add(transform, new List<PointTime>());
+            _points.Add(rigidbody, new List<PointTime>());
         }
         return;
     }
 
-    public void RemoveRewinder(Rigidbody2D transform)
+    public void RemoveRewinder(Rigidbody2D rigidbody)
     {
-        var removing = _points.FirstOrDefault(x => x.Key == transform).Key;
+        var removing = _points.FirstOrDefault(x => x.Key == rigidbody).Key;
         if (removing != null)
         {
             _points.Remove(removing);
