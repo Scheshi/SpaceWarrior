@@ -4,7 +4,7 @@
 namespace Asteroids.Models
 {
     [Serializable]
-    internal class Health
+    public class Health
     {
         public event Action Death;
         public float Hp { get; private set; }

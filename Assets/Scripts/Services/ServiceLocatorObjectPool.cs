@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Asteroids.Services
 {
-    public static class ServiceLocatorObjectPool
+    internal static class ServiceLocatorObjectPool
     {
         private static readonly Dictionary<Type, IPool> _pools = new Dictionary<Type, IPool>();
 

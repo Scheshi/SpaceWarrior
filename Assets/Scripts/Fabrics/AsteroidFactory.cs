@@ -12,19 +12,19 @@ namespace Asteroids.Fabrics
     {
         public IEnemy Create(GameObject obj, Health health)
         {
-            var enemy = GameObject.Instantiate(obj).AddComponent<AsteroidEnemy>();
+            var enemy = GameObject.Instantiate(obj).AddComponent<Asteroid>();
             enemy.InjectHealth(health);
             return enemy;
         }
 
         public IEnemy Create(GameObject obj)
         {
-            return GameObject.Instantiate(obj).AddComponent<AsteroidEnemy>();
+            return GameObject.Instantiate(obj).AddComponent<Asteroid>();
         }
 
         public IEnemy Create(Health health)
         {
-            var enemy = GameObject.Instantiate(Resources.Load<AsteroidEnemy>("Prefabs/Asteroid"));
+            var enemy = GameObject.Instantiate(Resources.Load<Asteroid>("Prefabs/Asteroid"));
             enemy.InjectHealth(health);
             health.Death += enemy.Death;
             return enemy;

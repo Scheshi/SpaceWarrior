@@ -246,6 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerData: {fileID: 11400000, guid: 124f5cbc6f1db4e47acee0a54f025d74, type: 2}
   _bulletData: {fileID: 11400000, guid: 1e77196d1a72f91409cae7e0946c493f, type: 2}
+  _testingForceAudio: {fileID: 8300000, guid: 4e0084a229e42314096bcc60c9b1d8cb, type: 3}
 --- !u!81 &2016582316
 AudioListener:
   m_ObjectHideFlags: 0

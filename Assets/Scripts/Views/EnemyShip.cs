@@ -10,9 +10,11 @@ namespace Asteroids.Views
 {
     class EnemyShip : MonoBehaviour, IDamagable, IDisposable, IEnemy
     {
+        [SerializeField] WeaponData _weaponData;
         private Health _health;
         private IDisposable _move;
 
+        public WeaponData Weapon => _weaponData;
         public Health Health => _health;
 
         public void Damage(float point)

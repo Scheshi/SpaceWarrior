@@ -1,7 +1,23 @@
-﻿namespace Asteroids.Interfaces
+﻿using System;
+using UnityEngine;
+
+namespace Asteroids.Interfaces
 {
-    interface IWeapon
+    interface IWeapon : IFire, IDisposable
     {
-        void Fire();
+        void SetNewFireSound(AudioClip fireClip);
+
+        void SetNewBarrelPosition(Transform barrel);
+
+        void SetNewForce(float force);
+
+        void SetNewFireRate(float fireRate);
+
+        void SetNewDamage(float damage);
+
+        void ResetFireSound();
+
+        void ResetFireRate();
+        void ResetDamage(float damage);
     }
 }

@@ -9,8 +9,10 @@ namespace Asteroids
     {
         private readonly IMove _moveImplementation;
         private readonly IRotation _rotationImplementation;
+        private IWeapon _weapon;
 
         public float Speed => _moveImplementation.Speed;
+        public IWeapon Weapon => _weapon;
 
         public Ship(IMove moveImplementation, IRotation rotationImplementation)
         {
@@ -26,6 +28,15 @@ namespace Asteroids
         public void Rotation(Vector3 direction)
         {
             _rotationImplementation.Rotation(direction);
+        }
+
+        public void SetNewWeapon(IWeapon weapon)
+        {
+            if (_weapon != null)
+            {
+                _weapon.Dispose();
+            }
+            _weapon = weapon;
         }
 
         public void AddAcceleration()

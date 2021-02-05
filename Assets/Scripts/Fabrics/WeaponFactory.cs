@@ -1,5 +1,6 @@
 ﻿using Asteroids.Interfaces;
 using System;
+using Asteroids.Models;
 
 
 namespace Asteroids.Fabrics
@@ -13,19 +14,17 @@ namespace Asteroids.Fabrics
             _bulletData = bulletData;
         }
 
-        public IWeapon Create(BarrelMarker barrel, ref Action fireAction)
+        public IWeapon Create(BarrelMarker barrel, Action fireAction, WeaponData data)
         {
-            var bullet = new Weapon(
+
+            var weapon = new Weapon(
                 barrel.transform,
-            ref fireAction,
-            _bulletData.Force,
-            _bulletData.Damage
+                fireAction,
+                data,
+                _bulletData
             );
 
-            fireAction += bullet.Fire;
-
-
-            return bullet;
+            return weapon;
         }
 
 

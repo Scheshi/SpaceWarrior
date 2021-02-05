@@ -22,7 +22,7 @@ namespace Asteroids
 
         public void Update()
         {
-            if ((_persecutionTransform.position - _transform.position).sqrMagnitude >= 2.0f)
+            if ((_persecutionTransform.position - _transform.position).sqrMagnitude >= 4.0f)
             {
                 Move(_persecutionTransform.position.x - _transform.position.x, _persecutionTransform.position.y - _transform.position.y, Time.deltaTime);
             }

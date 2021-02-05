@@ -3,9 +3,9 @@
 
 namespace Asteroids.Interfaces
 {
-    public interface IPool
+    internal interface IPool
     {
-        T Get<T>(Vector3 position, float points);
+        T Get<T>(Vector3 position, float points, Transform transform, GameController updaterController);
 
         void ReturnToPool(GameObject obj);
 

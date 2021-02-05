@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffcbdac193b14177aa83588a98383bed, type: 3}
+  m_Name: EnemyShipWeapon
+  m_EditorClassIdentifier: 
+  FireClip: {fileID: 8300000, guid: b22a91b0454fb18489cf5989068b5b9b, type: 3}
+  FireRate: 3

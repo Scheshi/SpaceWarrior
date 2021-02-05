@@ -3,7 +3,7 @@
 
 namespace Asteroids.Interfaces
 {
-    interface IDamagable
+    public interface IDamagable
     {
         Health Health { get; }
 

@@ -12,7 +12,9 @@ namespace Asteroids
         public event Action AccelerateUp;
         public event Action AccelerateDown;
         public Action Fire;
-
+        public Action ChangeToPrimary;
+        public Action ChangeToSecond;
+        
         private Camera _camera;
         private Transform _inputerObject;
         private GameController _game;
@@ -22,6 +24,9 @@ namespace Asteroids
         private string _verticalAxis = "Vertical";
 
         private string _accelerateAxis = "Fire2";
+
+        private KeyCode _primaryWeapon = KeyCode.Alpha1;
+        private KeyCode _secondWeapon = KeyCode.Alpha2;
         
         public InputManager(Camera camera, Transform playerTransform, GameController gameController)
         {
@@ -33,6 +38,7 @@ namespace Asteroids
 
         public void Update()
         {
+            ChangeWeapon();
             FireInvoke();
             AccelerateInvoke();
 
@@ -68,6 +74,20 @@ namespace Asteroids
         public void Dispose()
         {
             _game.RemoveUpdatable(this);
+        }
+
+        public void ChangeWeapon()
+        {
+            if (Input.GetKeyDown(_primaryWeapon))
+            {
+                ChangeToPrimary?.Invoke();
+            }
+
+            else if(Input.GetKeyDown(_secondWeapon))
+
+            {
+                ChangeToSecond?.Invoke();
+            }
         }
     }
 }

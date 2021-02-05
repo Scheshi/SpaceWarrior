@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Asteroids.Views
 {
-    internal sealed class Player : MonoBehaviour, IDisposable, IPlayer, IDamagable
+    internal sealed class Player : MonoBehaviour, IDisposable, IPlayer
     {
         private Health _health;
 

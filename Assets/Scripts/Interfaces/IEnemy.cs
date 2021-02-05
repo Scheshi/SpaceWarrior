@@ -1,9 +1,10 @@
-﻿using Asteroids.Models;
+﻿using System;
+using Asteroids.Models;
 
 
 namespace Asteroids.Interfaces
 {
-    interface IEnemy : IDamagable
+    public interface IEnemy : IDamagable
     {
         void InjectHealth(Health health);
     }

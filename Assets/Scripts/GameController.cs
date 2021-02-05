@@ -1,10 +1,6 @@
-﻿using Asteroids.Fabrics;
-using Asteroids.Interfaces;
-using Asteroids.ObjectPool;
+﻿using Asteroids.Interfaces;
 using Asteroids.Services;
-using Asteroids.Views;
 using System.Collections.Generic;
-using Asteroids.Models;
 using UnityEngine;
 
 
@@ -14,89 +10,15 @@ namespace Asteroids
     {
         [SerializeField] private PlayerData _playerData;
         [SerializeField] private BulletData _bulletData;
+        private Game _game;
         private readonly List<IFrameUpdatable> _updatables = new List<IFrameUpdatable>();
         private readonly List<IFixedUpdatable> _fixedUpdatables = new List<IFixedUpdatable>();
 
         public void Start()
         {
-            
-            var enemyPool = new EnemyObjectPool();
-
-            //Добавление пулла в локатор
-
-            ServiceLocatorObjectPool.Send(enemyPool);
-            ServiceLocatorObjectPool.Send(new BulletObjectPool());
-
-            var player = (Player)new PlayerFactory().Create(_playerData.PlayerPrefab, _playerData.ParticlesAroundPlayer, new Health(_playerData.Hp));
-
-            var playerTransform = player.transform;
-            
-            var inputManager = new InputManager(Camera.main, playerTransform, this);
-            var mainCameraTransform = Camera.main.transform;
-            mainCameraTransform.parent = playerTransform;
-            mainCameraTransform.position = new Vector3(0.0f, 0.0f, _playerData.CameraOffset);
-
-            var moveTransform = new AccelerationMove(playerTransform, _playerData.Speed, _playerData.Acceleration);
-            var rotation = new RotationShip(playerTransform);
-
-            var ship = new ShipFabric(moveTransform, rotation).Create<Ship>();
-
-
-            inputManager.AccelerateDown += ship.RemoveAcceleration;
-            inputManager.AccelerateUp += ship.AddAcceleration;
-            inputManager.Move += ship.Move;
-            inputManager.Rotation += ship.Rotation;
-
-            var weapon = new WeaponFactory(_bulletData)
-                .Create(
-                player.GetComponentInChildren<BarrelMarker>(),
-                ref inputManager.Fire
-                );
-
-            // и попытка его достать оттуда
-            var asteroid = ServiceLocatorObjectPool.Get<EnemyObjectPool>().Get<AsteroidEnemy>(
-                new Vector3(Random.Range(-3.0f, 3.0f), Random.Range(-3.0f, 3.0f), 0.0f),
-                10.0f
-            );
-
-            var comet = enemyPool.Get<Comet>(
-                new Vector3(Random.Range(-3.0f, 3.0f), Random.Range(-3.0f, 3.0f), 0.0f),
-                15.0f
-                );
-
-            var cometTransform = comet.transform;
-            
-            cometTransform.position = new Vector2(
-                cometTransform.position.x + Random.Range(-5.0f, 5.0f),
-                cometTransform.position.y + Random.Range(-5.0f, 5.0f));
-
-            cometTransform.up = playerTransform.position - comet.transform.position;
-            new CometMove(new MoveTransform(comet.transform, 1.0f), this)
-                .Move(cometTransform.up.x, cometTransform.up.y, Time.deltaTime);
-
-            var enemy = enemyPool.Get<EnemyShip>(
-                new Vector3(Random.Range(-3.0f, 3.0f), Random.Range(-3.0f, 3.0f), 0.0f),
-                20.0f
-                );
-
-            var enemyShipTransform = enemy.transform;
-            var persecutionMove = new UpdatablePersecutionMove(enemyShipTransform, playerTransform, _playerData.Speed / 2, this);
-            var persecutionRotation = new UpdatablePersecutionRotation(enemyShipTransform, playerTransform, this);
-            var enemyShip = new Ship(persecutionMove, persecutionRotation);
-            enemy.InjectMovement(persecutionMove);
-
-            var enemyWeapon = new WeaponFactory(
-                    //Временный костыль. Потом придумаю, как реализовать это через инспектор
-                new BulletData()
-                {
-                    Bullet = _bulletData.Bullet,
-                    Damage = _bulletData.Damage / 2,
-                    Force = _bulletData.Force / 2
-                })
-                .Create(
-                enemy.GetComponentInChildren<BarrelMarker>(),
-                ref persecutionMove.Stoping
-                );
+            //Facade
+            _game = new Game(_playerData, _bulletData, this);
+            _game.Construct();
         }
 
         private void Update()
