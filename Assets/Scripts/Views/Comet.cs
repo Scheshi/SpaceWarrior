@@ -10,6 +10,7 @@ namespace Asteroids.Views
 {
     internal sealed class Comet : MonoBehaviour, IEnemy, IDisposable
     {
+        public event Action<string> ScoreUp;
         private Health _health;
 
         public Health Health => _health;
@@ -19,6 +20,7 @@ namespace Asteroids.Views
             _health.Damage(point);
         }
 
+        
         public float Attack { get; set; }
         public float Defence { get; set; }
 
@@ -33,6 +35,7 @@ namespace Asteroids.Views
         public void Death()
         {
             ServiceLocatorObjectPool.Get<EnemyObjectPool>().ReturnToPool(gameObject);
+            ScoreUp?.Invoke("1000000");
         }
         public void Dispose()
         {

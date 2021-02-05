@@ -10,12 +10,14 @@ namespace Asteroids.Views
 {
     class EnemyShip : MonoBehaviour, IDamagable, IDisposable, IEnemy
     {
+        public event Action<string> ScoreUp;
         [SerializeField] WeaponData _weaponData;
         private Health _health;
         private IDisposable _move;
 
         public WeaponData Weapon => _weaponData;
         public Health Health => _health;
+        
         public float Attack { get; set; }
         public float Defence { get; set; }
 

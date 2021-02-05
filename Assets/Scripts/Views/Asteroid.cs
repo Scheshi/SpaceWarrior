@@ -10,6 +10,7 @@ namespace Asteroids.Views
 {
     internal sealed class Asteroid : MonoBehaviour, IEnemy, IDisposable
     {
+        public event Action<string> ScoreUp;
         private Health _health;
         private float _defence = 0.00f;
         private float _attack = 10.0f;
@@ -27,6 +28,8 @@ namespace Asteroids.Views
                 }
             }
         }
+
+        
 
         public float Attack
         {
@@ -52,6 +55,7 @@ namespace Asteroids.Views
 
         public void Death()
         {
+            ScoreUp?.Invoke("10");
             ServiceLocatorObjectPool.Get<EnemyObjectPool>().ReturnToPool(gameObject);
         }
 

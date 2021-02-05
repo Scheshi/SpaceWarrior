@@ -12,9 +12,9 @@ namespace Asteroids.Views
     public class MainMenuController : IFrameUpdatable
     {
         public event Action StartGame;
-        Dictionary<StateUI, MenuPanel> _panels;
+        private readonly Dictionary<StateUI, MenuPanel> _panels;
+        private readonly Stack<StateUI> _uiStack = new Stack<StateUI>();
         private IBaseUI _currentWindow;
-        private Stack<StateUI> _uiStack = new Stack<StateUI>();
         private bool _isStartGame = false;
 
         public MainMenuController(Dictionary<StateUI, MenuPanel> menuDictionary)
@@ -25,10 +25,8 @@ namespace Asteroids.Views
         public void Execute(StateUI ui, bool isSave = true)
         {
             Time.timeScale = 0.0f;
-            if (_currentWindow != null)
-            {
-                _currentWindow.Cancel();
-            }
+            
+            _currentWindow?.Cancel();
 
             _currentWindow = _panels.FirstOrDefault(x => x.Key == ui).Value;
             
