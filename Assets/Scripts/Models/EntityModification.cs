@@ -21,7 +21,7 @@ namespace Asteroids.Models
             else _next = next;
         }
 
-        public virtual void Handle() => _next.Handle();
+        public virtual void Handle() => _next?.Handle();
 
     }
 }
