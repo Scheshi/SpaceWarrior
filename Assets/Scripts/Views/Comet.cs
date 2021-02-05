@@ -39,7 +39,6 @@ namespace Asteroids.Views
         }
         public void Dispose()
         {
-            //TO-DO ObjectPool
             Destroy(gameObject);
         }
 
@@ -48,7 +47,7 @@ namespace Asteroids.Views
             if (collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
             {
                 //TO-DO fixed hardcode
-                damagable.Damage(5.0f);
+                damagable.Damage(Attack);
                 Death();
             }
         }
