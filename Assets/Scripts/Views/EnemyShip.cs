@@ -11,6 +11,7 @@ namespace Asteroids.Views
     class EnemyShip : MonoBehaviour, IDamagable, IDisposable, IEnemy
     {
         public event Action<string> ScoreUp;
+        public event Action<IEnemy> DeathEnemy;
         [SerializeField] WeaponData _weaponData;
         private Health _health;
         private IDisposable _move;
@@ -38,6 +39,7 @@ namespace Asteroids.Views
             ServiceLocatorObjectPool.Get<EnemyObjectPool>().ReturnToPool(gameObject);
             if (!Equals(_move, null))
                 _move.Dispose();
+            DeathEnemy.Invoke(this);
         }
 
         
