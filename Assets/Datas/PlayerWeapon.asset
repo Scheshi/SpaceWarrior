@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PlayerWeapon
   m_EditorClassIdentifier: 
   FireClip: {fileID: 8300000, guid: b22a91b0454fb18489cf5989068b5b9b, type: 3}
-  FireRate: 1
+  FireRate: 0.3

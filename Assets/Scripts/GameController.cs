@@ -1,13 +1,17 @@
 ﻿using Asteroids.Interfaces;
 using Asteroids.Services;
 using System.Collections.Generic;
+using Asteroids.Models;
+using Asteroids.Views;
 using UnityEngine;
 
 
 namespace Asteroids
 {
-    internal class GameController : MonoBehaviour
+    public class GameController : MonoBehaviour
     {
+        [SerializeField] GameObject _mainMenuPanel;
+        [SerializeField] GameObject _settingMenuPanel;
         [SerializeField] private PlayerData _playerData;
         [SerializeField] private BulletData _bulletData;
         private Game _game;
@@ -16,11 +20,23 @@ namespace Asteroids
 
         public void Start()
         {
+            var menuController = new MainMenuController(new Dictionary<StateUI, MenuPanel>()
+            {
+                {StateUI.Menu, new MenuPanel(_mainMenuPanel)},
+                {StateUI.Setting, new MenuPanel(_settingMenuPanel)}
+            });
+            menuController.Execute(StateUI.Menu);
+            menuController.StartGame += StartGame;
+            AddUpdatable(menuController);
+        }
+
+        private void StartGame()
+        {
             //Facade
             _game = new Game(_playerData, _bulletData, this);
             _game.Construct();
         }
-
+        
         private void Update()
         {
             for(int i = 0; i < _updatables.Count; i++)

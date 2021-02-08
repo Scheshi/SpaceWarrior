@@ -1,10 +1,12 @@
 using System;
+using Assets.Scripts.Services;
 using Asteroids.Fabrics;
 using Asteroids.Interfaces;
 using Asteroids.Models;
 using Asteroids.ObjectPool;
 using Services;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace Asteroids.Services
@@ -33,19 +35,33 @@ namespace Asteroids.Services
             _gameController = controller;
         }
 
-        
-        
+
         public void Construct()
         {
             ServiceLocatorObjectPool.Send(new BulletObjectPool());
             _playerInfo = CreatePlayer(new WeaponFactory(_bulletData), _playerData.WeaponData);
             var enemies = CreateEnemies(((MonoBehaviour)Player).transform);
-            
-            //Decorator
-            var forceModification = new ForceModification(Resources.Load<AudioClip>("Audios/force_weapon"), 5.0f, 30.0f);
-            forceModification.AddModification(PlayerShip.Weapon);
-            //Decorator remove
-            //forceModification.RemoveMofication(PlayerShip.Weapon);
+
+            var canvas = GameObject.FindObjectOfType<Canvas>();
+            var text = new GameObject("scoreText").AddComponent<Text>();
+            text.transform.parent = canvas.transform;
+            var interpreter = new ScoreInterpreter(text);
+            AudioClip forceClip = Resources.Load<AudioClip>("Audios/force_weapon");
+            foreach (var enemy in enemies)
+            {
+                enemy.ScoreUp += interpreter.Interpret;
+            }
+            if (forceClip != null)
+            {
+                //Decorator
+                var forceModification = new ForceModification(forceClip,
+                    1.0f, 30.0f);
+                forceModification.AddModification(PlayerShip.Weapon);
+                //Decorator remove
+                //forceModification.RemoveMofication(PlayerShip.Weapon);
+            }
+            else throw new NullReferenceException("Нет файла Resources/Audios/force_weapon");
+
         }
 
 

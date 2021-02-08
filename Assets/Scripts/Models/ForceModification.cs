@@ -1,7 +1,6 @@
-using System;
 using Asteroids.Interfaces;
-using JetBrains.Annotations;
 using UnityEngine;
+
 
 namespace Asteroids.Models
 {
@@ -10,6 +9,8 @@ namespace Asteroids.Models
         private readonly AudioClip _fireClip;
         private readonly float _damage;
         private readonly float _fireRate;
+
+        private AudioClip _oldClip;
 
         public ForceModification(AudioClip fireClip, float fireRate, float damage)
         {
@@ -20,16 +21,16 @@ namespace Asteroids.Models
 
         public override void AddModification(IWeapon weapon)
         {
-            weapon.SetNewFireSound(_fireClip);
-            weapon.SetNewFireRate(_fireRate);
-            weapon.SetNewDamage(_damage);
+            weapon.SetFireSound(_fireClip, out _oldClip);
+            weapon.SetFireRate(_fireRate);
+            weapon.SetDamage(_damage);
         }
 
-        public void RemoveMofication(IWeapon weapon)
+        public override void RemoveModification(IWeapon weapon)
         {
-            weapon.ResetFireSound();
-            weapon.ResetFireRate();
-            weapon.ResetDamage(_damage);
+            weapon.SetFireSound(_oldClip, out _);
+            weapon.SetFireRate(-_fireRate);
+            weapon.SetDamage(-_damage);
         }
     }
 }

@@ -1,4 +1,5 @@
 using Asteroids.Interfaces;
+using UnityEngine;
 
 namespace Asteroids.Models
 {
@@ -7,6 +8,8 @@ namespace Asteroids.Models
         Weapon _weapon;
 
         public abstract void AddModification(IWeapon weapon);
+
+        public abstract void RemoveModification(IWeapon weapon);
 
         public void Fire()
         {

@@ -10,6 +10,7 @@ namespace Asteroids.Views
 {
     internal sealed class Comet : MonoBehaviour, IEnemy, IDisposable
     {
+        public event Action<string> ScoreUp;
         private Health _health;
 
         public Health Health => _health;
@@ -18,6 +19,10 @@ namespace Asteroids.Views
         {
             _health.Damage(point);
         }
+
+        
+        public float Attack { get; set; }
+        public float Defence { get; set; }
 
         public void InjectHealth(Health health)
         {
@@ -30,10 +35,10 @@ namespace Asteroids.Views
         public void Death()
         {
             ServiceLocatorObjectPool.Get<EnemyObjectPool>().ReturnToPool(gameObject);
+            ScoreUp?.Invoke("1000000");
         }
         public void Dispose()
         {
-            //TO-DO ObjectPool
             Destroy(gameObject);
         }
 
@@ -42,7 +47,7 @@ namespace Asteroids.Views
             if (collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
             {
                 //TO-DO fixed hardcode
-                damagable.Damage(5.0f);
+                damagable.Damage(Attack);
                 Death();
             }
         }

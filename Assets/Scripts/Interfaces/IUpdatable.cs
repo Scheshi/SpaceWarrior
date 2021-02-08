@@ -1,6 +1,6 @@
 ﻿namespace Asteroids.Interfaces
 {
-    interface IUpdatable
+    public interface IUpdatable
     {
     }
 }
