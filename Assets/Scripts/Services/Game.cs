@@ -47,9 +47,11 @@ namespace Asteroids.Services
             text.transform.parent = canvas.transform;
             var interpreter = new ScoreInterpreter(text);
             AudioClip forceClip = Resources.Load<AudioClip>("Audios/force_weapon");
+            var observer = new Observer();
             foreach (var enemy in enemies)
             {
                 enemy.ScoreUp += interpreter.Interpret;
+                observer.Add(enemy);
             }
             if (forceClip != null)
             {
