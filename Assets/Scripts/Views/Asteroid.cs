@@ -10,13 +10,39 @@ namespace Asteroids.Views
 {
     internal sealed class Asteroid : MonoBehaviour, IEnemy, IDisposable
     {
+        public event Action<string> ScoreUp;
         private Health _health;
+        private float _defence = 0.00f;
+        private float _attack = 10.0f;
 
         public Health Health => _health;
 
+        public float Defence
+        {
+            get => _defence;
+            set
+            {
+                if (_defence - value >= 0 && _defence + value <= 1)
+                {
+                    _defence = value;
+                }
+            }
+        }
+
+        
+
+        public float Attack
+        {
+            get => _attack;
+            set
+            {
+                if (_defence - value >= 0 && _defence + value >= 0) _attack = value;
+            }
+        }
+
         public void Damage(float point)
         {
-            _health.Damage(point);
+            _health.Damage(point - point * _defence);
         }
 
         public void InjectHealth(Health health)
@@ -29,6 +55,7 @@ namespace Asteroids.Views
 
         public void Death()
         {
+            ScoreUp?.Invoke("10");
             ServiceLocatorObjectPool.Get<EnemyObjectPool>().ReturnToPool(gameObject);
         }
 
@@ -42,7 +69,7 @@ namespace Asteroids.Views
             if(collision.gameObject.TryGetComponent<IDamagable>(out var damagable))
             {
                 //TO-DO fixed hardcode
-                damagable.Damage(10.0f);
+                damagable.Damage(_attack);
                 Death();
             }
         }

@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+﻿using Asteroids.Models;
+using Models;
+using UnityEngine;
 
 
 namespace Asteroids.Interfaces
 {
-    interface IEnemyFactory
+    public interface IEnemyFactory
     {
-        IEnemy Create(GameObject obj);
+        bool TryParse(SerializableObjectInfo serialized, out IEnemy enemy, GameController gameController,
+            Vector3 position, Transform playerTransform);
+
+        IEnemy Create(Health health, Vector3 position, Transform playerTransform, GameController gameController);
     }
 }

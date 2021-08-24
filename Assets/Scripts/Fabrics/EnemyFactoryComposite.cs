@@ -3,6 +3,7 @@ using Asteroids.Interfaces;
 using Asteroids.Models;
 using Asteroids.Services;
 using Asteroids.Views;
+using Models;
 using UnityEngine;
 
 
@@ -10,11 +11,45 @@ namespace Asteroids.Fabrics
 {
     internal sealed class EnemyFactoryComposite
     {
+        private IEnemyFactory[] _factories;
+        
+        public EnemyFactoryComposite()
+        {
+            _factories = new IEnemyFactory[]
+            {
+                new AsteroidFactory(),
+                new CometFactory(),
+                new EnemyShipFactory()
+            };
+        }
+        
+        
+        
         public TEnemy Create<TEnemy>(Health health, Transform playerTransform, GameController gameController, Vector3 position)
         {
             return (TEnemy)Create(health, typeof(TEnemy).Name, playerTransform, gameController, position);
         }
 
+        public IEnemy[] Parsing(SerializableObjectUnit[] objectInfos, Transform playerTransform, 
+            GameController gameController, Vector2[] positions)
+        {
+            var enemies = new IEnemy[objectInfos.Length];
+            for (int i = 0; i < objectInfos.Length; i++)
+            {
+                foreach (var item in _factories)
+                {
+                    if (item.TryParse(objectInfos[i].Unit, out var enemy, gameController, positions[i], playerTransform))
+                    {
+                        enemies[i] = enemy;
+                        break;
+                    }
+                }
+                if (enemies[i] == null) throw new ArgumentException("Указан неверный тип " + objectInfos[i].Unit.Type);
+            }
+            return enemies;
+        }
+        
+        
         public IEnemy Create(Health health, string typeName, Transform playerTransform, 
             GameController gameController, Vector3 position)
         {
@@ -22,57 +57,13 @@ namespace Asteroids.Fabrics
             switch (typeName.ToLower())
             {
                 case "asteroid":
-                    enemy = new AsteroidFactory().Create(health);
-                    if (enemy.TryGetAbstract<MonoBehaviour>(out var monoAsteroid))
-                    {
-                        monoAsteroid.transform.position = position;
-                    }
+                    enemy = new AsteroidFactory().Create(health, position, playerTransform, gameController);;
                     break;
                 case "comet":
-                    enemy = new CometFactory().Create(health);
-                    if (enemy.TryGetAbstract<MonoBehaviour>(out var monoEnemy))
-                    {
-                        var cometTransform = monoEnemy.transform;
-                        cometTransform.position = position;
-                        cometTransform.up = playerTransform.position - cometTransform.position;
-                        new CometMove(new MoveTransform(cometTransform, 1.0f), gameController)
-                            .Move(cometTransform.up.x, cometTransform.up.y, Time.deltaTime);
-                    }
-                    else Debug.LogWarning("Этот тип не является MonoBehaviour");
-
+                    enemy = new CometFactory().Create(health, position, playerTransform, gameController);
                     break;
-
                 case "enemyship":
-                    enemy = new EnemyShipFactory().Create(health);
-                    if (enemy.TryGetAbstract<MonoBehaviour>(out var mono))
-                    {
-                        var enemyShipTransform = mono.transform;
-                        enemyShipTransform.position = position;
-                        //Еще один тип перемещения через Bridge
-                        var persecutionMove = new UpdatablePersecutionMove(enemyShipTransform, playerTransform, 3.0f,
-                            gameController);
-                        var persecutionRotation =
-                            new UpdatablePersecutionRotation(enemyShipTransform, playerTransform, gameController);
-                        var enemyShip = new Ship(persecutionMove, persecutionRotation);
-                        enemy.TryGetAbstract<EnemyShip>(out var ship);
-                        ship.InjectMovement(persecutionMove);
-                        var enemyWeapon = new WeaponFactory(
-                                //Временный костыль. Потом придумаю, как реализовать это через инспектор
-                                new BulletData()
-                                {
-                                    Bullet = Resources.Load<Rigidbody2D>("Prefabs/Bullet"),
-                                    Damage = 10.0f,
-                                    Force = 5.0f
-                                })
-                            .Create(
-                                mono.GetComponentInChildren<BarrelMarker>(),
-                                persecutionMove.Stoping,
-                                mono.GetComponent<EnemyShip>().Weapon
-                            );
-                        persecutionMove.Stoping += enemyWeapon.Fire;
-                    }
-                    else Debug.LogWarning("Тип не является MonoBehaviour");
-
+                    enemy = new EnemyShipFactory().Create(health, position, playerTransform, gameController);;
                     break;
                 
                 default:
